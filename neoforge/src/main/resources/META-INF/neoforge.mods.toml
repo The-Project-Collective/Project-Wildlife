@@ -1,0 +1,38 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+#issueTrackerURL = ""
+license = "Apache License 2.0"
+
+[[mods]]
+modId = "project_wildlife"
+version = "${version}"
+displayName = "Project Wildlife"
+authors = "Kangalia"
+description = '''
+A mod for Minecraft to bring realistic wild animals to the game.
+'''
+#logoFile = ""
+
+[[dependencies.project_wildlife]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.4,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.project_wildlife]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.4,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.project_wildlife]]
+modId = "architectury"
+type = "required"
+versionRange = "[15.0.1,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[mixins]]
+config = "project_wildlife.mixins.json"
