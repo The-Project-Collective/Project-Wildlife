@@ -1,6 +1,8 @@
 package com.collective.projectwildlife.blocks;
 
+import com.collective.projectcore.groups.CoreTabGroups;
 import com.collective.projectwildlife.ProjectWildlife;
+import com.collective.projectwildlife.blocks.insects.*;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.AbstractBlock;
@@ -26,6 +28,7 @@ public class WildlifeBlocks {
     //public static final RegistrySupplier<Block> FEEDER = registerBlock("feeder", () -> new CoreFeederBlock(AbstractBlock.Settings.copy(Blocks.STONE).mapColor(MapColor.BROWN).requiresTool().registryKey(getBlockRegistryKey("feeder"))));
 
 
+
     // === WORLD GEN ===
 
     // Insect Nests
@@ -35,11 +38,13 @@ public class WildlifeBlocks {
     public static final RegistrySupplier<Block> WILD_MOLE_CRICKET_NEST = registerBlock("wild_mole_cricket_nest", () -> new Block(AbstractBlock.Settings.copy(Blocks.COARSE_DIRT).mapColor(MapColor.DIRT_BROWN).registryKey(getBlockRegistryKey("wild_mole_cricket_nest"))));
     public static final RegistrySupplier<Block> WILD_TERMITE_NEST = registerBlock("wild_termite_nest", () -> new Block(AbstractBlock.Settings.copy(Blocks.COARSE_DIRT).mapColor(MapColor.DIRT_BROWN).registryKey(getBlockRegistryKey("wild_termite_nest"))));
 
-    //public static final RegistrySupplier<Block> COCKROACH_NEST = registerBlock("cockroach_nest", () -> new CockroachNestBlock(AbstractBlock.Settings.copy(Blocks.COARSE_DIRT).mapColor(MapColor.DIRT_BROWN).registryKey(getBlockRegistryKey("cockroach_nest"))));
-    //public static final RegistrySupplier<Block> GRUB_NEST = registerBlock("grub_nest", () -> new GrubNestBlock(AbstractBlock.Settings.copy(Blocks.COARSE_DIRT).mapColor(MapColor.DIRT_BROWN).registryKey(getBlockRegistryKey("grub_nest"))));
-    //public static final RegistrySupplier<Block> MEALWORM_NEST = registerBlock("mealworm_nest", () -> new MealwormNestBlock(AbstractBlock.Settings.copy(Blocks.COARSE_DIRT).mapColor(MapColor.DIRT_BROWN).registryKey(getBlockRegistryKey("mealworm_nest"))));
-    //public static final RegistrySupplier<Block> MOLE_CRICKET_NEST = registerBlock("mole_cricket_nest", () -> new MoleCricketNestBlock(AbstractBlock.Settings.copy(Blocks.COARSE_DIRT).mapColor(MapColor.DIRT_BROWN).registryKey(getBlockRegistryKey("mole_cricket_nest"))));
-    //public static final RegistrySupplier<Block> TERMITE_NEST = registerBlock("termite_nest", () -> new TermiteNestBlock(AbstractBlock.Settings.copy(Blocks.COARSE_DIRT).mapColor(MapColor.DIRT_BROWN).registryKey(getBlockRegistryKey("termite_nest"))));
+    public static final RegistrySupplier<Block> COCKROACH_NEST = registerBlock("cockroach_nest", () -> new CockroachNestBlock(AbstractBlock.Settings.copy(Blocks.COARSE_DIRT).mapColor(MapColor.DIRT_BROWN).registryKey(getBlockRegistryKey("cockroach_nest"))));
+    public static final RegistrySupplier<Block> GRUB_NEST = registerBlock("grub_nest", () -> new GrubNestBlock(AbstractBlock.Settings.copy(Blocks.COARSE_DIRT).mapColor(MapColor.DIRT_BROWN).registryKey(getBlockRegistryKey("grub_nest"))));
+    public static final RegistrySupplier<Block> MEALWORM_NEST = registerBlock("mealworm_nest", () -> new MealwormNestBlock(AbstractBlock.Settings.copy(Blocks.COARSE_DIRT).mapColor(MapColor.DIRT_BROWN).registryKey(getBlockRegistryKey("mealworm_nest"))));
+    public static final RegistrySupplier<Block> MOLE_CRICKET_NEST = registerBlock("mole_cricket_nest", () -> new MoleCricketNestBlock(AbstractBlock.Settings.copy(Blocks.COARSE_DIRT).mapColor(MapColor.DIRT_BROWN).registryKey(getBlockRegistryKey("mole_cricket_nest"))));
+    public static final RegistrySupplier<Block> TERMITE_NEST = registerBlock("termite_nest", () -> new TermiteNestBlock(AbstractBlock.Settings.copy(Blocks.COARSE_DIRT).mapColor(MapColor.DIRT_BROWN).registryKey(getBlockRegistryKey("termite_nest"))));
+
+
 
     // === HELPER METHODS ===
 
@@ -51,7 +56,7 @@ public class WildlifeBlocks {
 
     @SuppressWarnings("UnstableApiUsage")
     private static <T extends Block> void registerBlockItem(String name, RegistrySupplier<T> block) {
-        BLOCK_ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Settings().arch$tab(ItemGroups.NATURAL).registryKey(getItemRegistryKey(name))));
+        BLOCK_ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Settings().arch$tab(CoreTabGroups.CORE_BLOCKS).registryKey(getItemRegistryKey(name)).useBlockPrefixedTranslationKey()));
     }
 
     private static RegistryKey<Block> getBlockRegistryKey(String block_id) {
