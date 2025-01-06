@@ -25,6 +25,10 @@
   "screenhandler.project_wildlife.grub_nest": "Grub Nest",
   "screenhandler.project_wildlife.mealworm_nest": "Mealworm Nest",
   "screenhandler.project_wildlife.mole_cricket_nest": "Mole Cricket Nest",
-  "screenhandler.project_wildlife.termite_nest": "Termite Nest"
+  "screenhandler.project_wildlife.termite_nest": "Termite Nest",
+
+
+
+  "tag.item.project_wildlife.insects": "Insects Tag"
 
 }
