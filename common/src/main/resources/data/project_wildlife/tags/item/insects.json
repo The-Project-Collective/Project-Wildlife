@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "project_wildlife:cockroach",
+    "project_wildlife:grub",
+    "project_wildlife:mealworm",
+    "project_wildlife:mole_cricket",
+    "project_wildlife:termite"
+  ]
+}
