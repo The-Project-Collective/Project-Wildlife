@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "project_wildlife:mealworm_nest"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "project_wildlife:blocks/mealworm_nest"
+}
