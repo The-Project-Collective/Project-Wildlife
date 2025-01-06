@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#@#",
+    "###"
+  ],
+  "key": {
+    "@": "project_wildlife:grub",
+    "#": "minecraft:dirt"
+  },
+  "result": {
+    "id": "project_wildlife:grub_nest",
+    "count": 1
+  }
+}
