@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#@#",
+    "###"
+  ],
+  "key": {
+    "@": "project_wildlife:cockroach",
+    "#": "minecraft:dirt"
+  },
+  "result": {
+    "id": "project_wildlife:cockroach_nest",
+    "count": 1
+  }
+}

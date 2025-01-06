@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#@#",
+    "###"
+  ],
+  "key": {
+    "@": "project_wildlife:mole_cricket",
+    "#": "minecraft:dirt"
+  },
+  "result": {
+    "id": "project_wildlife:mole_cricket_nest",
+    "count": 1
+  }
+}
