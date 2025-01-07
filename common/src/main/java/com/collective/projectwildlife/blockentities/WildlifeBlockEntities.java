@@ -2,6 +2,7 @@ package com.collective.projectwildlife.blockentities;
 
 import com.collective.projectwildlife.ProjectWildlife;
 import com.collective.projectwildlife.blockentities.insects.*;
+import com.collective.projectwildlife.blockentities.machines.FeederBlockEntity;
 import com.collective.projectwildlife.blocks.WildlifeBlocks;
 import com.collective.projectwildlife.util.builders.BlockEntityTypeBuilder;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -19,5 +20,8 @@ public class WildlifeBlockEntities {
     public static final RegistrySupplier<BlockEntityType<MealwormNestBlockEntity>> MEALWORM_NEST_ENTITY = BLOCK_ENTITIES.register("mealworm_nest", () -> BlockEntityTypeBuilder.create(MealwormNestBlockEntity::new, WildlifeBlocks.MEALWORM_NEST.get()));
     public static final RegistrySupplier<BlockEntityType<MoleCricketNestBlockEntity>> MOLE_CRICKET_NEST_ENTITY = BLOCK_ENTITIES.register("mole_cricket_nest", () -> BlockEntityTypeBuilder.create(MoleCricketNestBlockEntity::new, WildlifeBlocks.MOLE_CRICKET_NEST.get()));
     public static final RegistrySupplier<BlockEntityType<TermiteNestBlockEntity>> TERMITE_NEST_ENTITY = BLOCK_ENTITIES.register("termite_nest", () -> BlockEntityTypeBuilder.create(TermiteNestBlockEntity::new, WildlifeBlocks.TERMITE_NEST.get()));
+
+    // Insect Nests
+    public static final RegistrySupplier<BlockEntityType<FeederBlockEntity>> FEEDER_ENTITY = BLOCK_ENTITIES.register("feeder", () -> BlockEntityTypeBuilder.create(FeederBlockEntity::new, WildlifeBlocks.FEEDER.get()));
 
 }
