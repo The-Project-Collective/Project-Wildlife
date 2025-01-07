@@ -7,6 +7,8 @@
 
 
 
+  "block.project_wildlife.feeder": "Feeder",
+
   "block.project_wildlife.cockroach_nest": "Cockroach Nest",
   "block.project_wildlife.grub_nest": "Grub Nest",
   "block.project_wildlife.mealworm_nest": "Mealworm Nest",
@@ -20,6 +22,8 @@
   "block.project_wildlife.wild_termite_nest": "Wild Termite Nest",
 
 
+
+  "screenhandler.project_wildlife.feeder": "Feeder",
 
   "screenhandler.project_wildlife.cockroach_nest": "Cockroach Nest",
   "screenhandler.project_wildlife.grub_nest": "Grub Nest",

@@ -2,6 +2,7 @@ package com.collective.projectwildlife.screens.handlers;
 
 import com.collective.projectwildlife.ProjectWildlife;
 import com.collective.projectwildlife.screens.handlers.insects.*;
+import com.collective.projectwildlife.screens.handlers.machines.FeederScreenHandler;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.registry.RegistryKeys;
@@ -25,4 +26,9 @@ public class WildlifeScreenHandlers {
             SCREEN_HANDLERS.register("mole_cricket_nest", () -> new ScreenHandlerType<>(MoleCricketNestScreenHandler::new, FeatureFlags.DEFAULT_ENABLED_FEATURES));
     public static final RegistrySupplier<ScreenHandlerType<TermiteNestScreenHandler>> TERMITE_NEST_SCREEN_HANDLER =
             SCREEN_HANDLERS.register("termite_nest", () -> new ScreenHandlerType<>(TermiteNestScreenHandler::new, FeatureFlags.DEFAULT_ENABLED_FEATURES));
+
+    // Machines
+    public static final RegistrySupplier<ScreenHandlerType<FeederScreenHandler>> FEEDER_SCREEN_HANDLER =
+            SCREEN_HANDLERS.register("feeder", () -> new ScreenHandlerType<>(FeederScreenHandler::new, FeatureFlags.DEFAULT_ENABLED_FEATURES));
+
 }
