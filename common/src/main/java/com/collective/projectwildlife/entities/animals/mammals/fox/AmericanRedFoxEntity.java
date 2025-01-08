@@ -1,5 +1,9 @@
 package com.collective.projectwildlife.entities.animals.mammals.fox;
 
+import com.collective.projectcore.entities.ai.goals.CoreAnimalBabyFollowGoal;
+import com.collective.projectcore.entities.ai.goals.CoreAnimalBreedGoal;
+import com.collective.projectcore.entities.ai.goals.CoreAnimalCheckMotherGoal;
+import com.collective.projectcore.entities.ai.goals.CoreAnimalGiveBirthGoal;
 import com.collective.projectcore.entities.base.CoreAnimalEntity;
 import com.collective.projectcore.entities.variant.VariantContext;
 import com.collective.projectcore.groups.tags.CoreTags;
@@ -120,18 +124,18 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     // --- Goals ------------------------------------------------------------------------------------------
     @Override
     protected void initGoals() {
-        //this.goalSelector.add(0, new WildlifeCheckMotherGoal(this));
-        //this.goalSelector.add(0, new WildlifeGiveBirthGoal(this, 2.0, 24));
+        this.goalSelector.add(0, new CoreAnimalCheckMotherGoal(this));
+        this.goalSelector.add(0, new CoreAnimalGiveBirthGoal(this, 2.0, 24));
         this.goalSelector.add(1, new SwimGoal(this));
-        //this.goalSelector.add(2, new WildlifeBabyFollowGoal(this, 1));
-        //this.goalSelector.add(3, new WildlifeBreedGoal(this, 2.0));
+        this.goalSelector.add(2, new CoreAnimalBabyFollowGoal(this, 1));
+        this.goalSelector.add(3, new CoreAnimalBreedGoal(this, 2.0));
         this.goalSelector.add(5, new MeleeAttackGoal(this, 1.0, true));
         this.goalSelector.add(8, new WanderAroundFarGoal(this, 1.0));
         this.goalSelector.add(10, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.add(10, new LookAroundGoal(this));
         this.targetSelector.add(3, (new RevengeGoal(this)).setGroupRevenge());
-        //this.targetSelector.add(4, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));
-        //this.targetSelector.add(8, new UniversalAngerGoal<>(this, true));
+        this.targetSelector.add(4, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));
+        this.targetSelector.add(8, new UniversalAngerGoal<>(this, true));
     }
 
     // --- Initialization ------------------------------------------------------------------------------------------
@@ -268,6 +272,11 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     @Override
     public boolean rareOffspring() {
         return false;
+    }
+
+    @Override
+    public boolean isMonogamous() {
+        return true;
     }
 
     // --- General ------------------------------------------------------------------------------------------
