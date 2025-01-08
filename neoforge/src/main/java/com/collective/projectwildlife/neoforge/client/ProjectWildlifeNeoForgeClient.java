@@ -1,6 +1,8 @@
 package com.collective.projectwildlife.neoforge.client;
 
 import com.collective.projectwildlife.ProjectWildlife;
+import com.collective.projectwildlife.entities.WildlifeEntities;
+import com.collective.projectwildlife.renderers.entities.animals.mammals.fox.AmericanRedFoxRenderer;
 import com.collective.projectwildlife.screens.handlers.WildlifeScreenHandlers;
 import com.collective.projectwildlife.screens.insects.*;
 import com.collective.projectwildlife.screens.machines.FeederScreen;
@@ -20,6 +22,7 @@ public class ProjectWildlifeNeoForgeClient {
 
     @SubscribeEvent
     public void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(WildlifeEntities.AMERICAN_RED_FOX_ENTITY.get(), AmericanRedFoxRenderer::new);
 
     }
 

@@ -23,6 +23,13 @@
 
 
 
+  "item.project_wildlife.american_red_fox_spawn_egg": "American Red Fox Spawn Egg",
+
+
+
+  "scientific.project_wildlife.american_red_fox": "Vulpes vulpes fulva",
+
+
   "screenhandler.project_wildlife.feeder": "Feeder",
 
   "screenhandler.project_wildlife.cockroach_nest": "Cockroach Nest",
@@ -33,6 +40,12 @@
 
 
 
-  "tag.item.project_wildlife.insects": "Insects Tag"
+  "group.project_wildlife.wildlife_animals": "Wildlife Animals",
+
+
+
+  "tag.item.project_wildlife.insects": "Insects Tag",
+
+  "tag.item.project_wildlife.american_red_fox_foods": "American Red Fox Foods"
 
 }

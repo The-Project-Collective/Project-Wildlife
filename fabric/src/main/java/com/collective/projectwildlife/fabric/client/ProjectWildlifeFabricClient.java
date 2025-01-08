@@ -1,10 +1,13 @@
 package com.collective.projectwildlife.fabric.client;
 
+import com.collective.projectwildlife.entities.WildlifeEntities;
+import com.collective.projectwildlife.renderers.entities.animals.mammals.fox.AmericanRedFoxRenderer;
 import com.collective.projectwildlife.screens.handlers.WildlifeScreenHandlers;
 import com.collective.projectwildlife.screens.insects.*;
 import com.collective.projectwildlife.screens.machines.FeederScreen;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 
 public final class ProjectWildlifeFabricClient implements ClientModInitializer {
     @Override
@@ -15,6 +18,7 @@ public final class ProjectWildlifeFabricClient implements ClientModInitializer {
     }
 
     public static void registerEntityRenderers() {
+        EntityRendererRegistry.register(WildlifeEntities.AMERICAN_RED_FOX_ENTITY.get(), AmericanRedFoxRenderer::new);
 
     }
 
