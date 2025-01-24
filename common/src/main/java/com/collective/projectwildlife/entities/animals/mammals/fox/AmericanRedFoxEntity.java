@@ -1,9 +1,6 @@
 package com.collective.projectwildlife.entities.animals.mammals.fox;
 
-import com.collective.projectcore.entities.ai.goals.CoreAnimalBabyFollowGoal;
-import com.collective.projectcore.entities.ai.goals.CoreAnimalBreedGoal;
-import com.collective.projectcore.entities.ai.goals.CoreAnimalCheckMotherGoal;
-import com.collective.projectcore.entities.ai.goals.CoreAnimalGiveBirthGoal;
+import com.collective.projectcore.entities.ai.goals.*;
 import com.collective.projectcore.entities.base.CoreAnimalEntity;
 import com.collective.projectcore.entities.variant.VariantContext;
 import com.collective.projectcore.groups.tags.CoreTags;
@@ -58,7 +55,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     public static final RawAnimation RUN = RawAnimation.begin().thenLoop("animation.american_red.run");
 
     public AmericanRedFoxEntity(EntityType<? extends AnimalEntity> entityType, World world) {
-        super(entityType, world, true, true, true, true, true, true, true);
+        super(entityType, world, true, true, true, true, true, true, true, true);
     }
 
     // === MAIN METHODS =======================================================================================================================================================================
@@ -127,6 +124,9 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         this.goalSelector.add(0, new CoreAnimalCheckMotherGoal(this));
         this.goalSelector.add(0, new CoreAnimalGiveBirthGoal(this, 2.0, 24));
         this.goalSelector.add(1, new SwimGoal(this));
+        this.goalSelector.add(1, new CoreAnimalCheckGroupGoal(this));
+        this.goalSelector.add(2, new CoreAnimalLeaderCombineGroupsGoal(this));
+        this.goalSelector.add(2, new CoreAnimalCheckGroupLeaderGoal(this));
         this.goalSelector.add(2, new CoreAnimalBabyFollowGoal(this, 1));
         this.goalSelector.add(3, new CoreAnimalBreedGoal(this, 2.0));
         this.goalSelector.add(5, new MeleeAttackGoal(this, 1.0, true));
@@ -316,6 +316,12 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     @Override
     public boolean canBeLeashed() {
         return !this.hasAngerTime();
+    }
+
+    // --- Pack Mechanics ------------------------------------------------------------------------------------------
+    @Override
+    public int getMaxGroupSize() {
+        return 8;
     }
 
     // --- Pregnancy ------------------------------------------------------------------------------------------
