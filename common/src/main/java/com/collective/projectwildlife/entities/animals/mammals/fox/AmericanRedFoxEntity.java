@@ -10,10 +10,7 @@ import com.collective.projectwildlife.groups.tags.WildlifeTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -53,7 +50,15 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
 
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.american_red.idle");
     public static final RawAnimation RUN = RawAnimation.begin().thenLoop("animation.american_red.run");
+    
+    public float minHeight = 0.5f;
+    public float maxHeight = 1f;
+    public float minWidth = 0.4f;
+    public float maxWidth = 0.9f;
 
+    private int counter = 0;
+    
+    
     public AmericanRedFoxEntity(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world, true, true, true, true, true, true, true, true);
     }
@@ -150,10 +155,57 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         }
         this.setAttributes(0);
         this.setPack(List.of(this.getUuidAsString()));
+        this.calculateDimensions();
         return super.initialize(world, difficulty, spawnReason, entityData);
     }
 
+    @Override
+    protected EntityDimensions getBaseDimensions(EntityPose pose) {
+        return super.getBaseDimensions(pose).scaled(this.getDimensionScaleWidth(), this.getDimensionScaleHeight());
+    }
 
+    public float getDimensionScaleHeight() {
+        float step = (this.getMaxHeight() - this.minHeight) / ((this.getAdultDays() * 24000) + 1);
+        if (this.getAgeTicks() >= this.getAdultDays() * 24000) {
+            return this.minHeight + ((step) * this.getAdultDays() * 24000);
+        }
+        return minHeight + (step * this.getAgeTicks());
+    }
+
+    public float getDimensionScaleWidth() {
+        float step = (getMaxWidth() - this.minWidth) / ((this.getAdultDays() * 24000) + 1);
+        if (this.getAgeTicks() >= this.getAdultDays() * 24000) {
+            return this.minWidth + ((step) * this.getAdultDays() * 24000);
+        }
+        return minWidth + (step * this.getAgeTicks());
+    }
+
+    public float getMaxHeight() {
+        if (this.getGender() == 0) {
+            return maxHeight;
+        } else {
+            return maxHeight - 0.25f;
+        }
+    }
+
+    public float getMaxWidth() {
+        if (this.getGender() == 0) {
+            return maxWidth;
+        } else {
+            return maxWidth - 0.1f;
+        }
+    }
+
+    @Override
+    public void tickMovement() {
+        super.tickMovement();
+        if (counter < 20) {
+            counter++;
+        } else {
+            calculateDimensions();
+            counter = 0;
+        }
+    }
 
     // === VARIANT CONTEXT =======================================================================================================================================================================
     public final VariantContext americanRedFoxVariants = new VariantContext() {
