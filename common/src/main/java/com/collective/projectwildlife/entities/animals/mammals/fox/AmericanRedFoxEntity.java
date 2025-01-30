@@ -149,6 +149,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
             this.setVariant(this.calculateWildVariant());
         }
         this.setAttributes(0);
+        this.setPack(List.of(this.getUuidAsString()));
         return super.initialize(world, difficulty, spawnReason, entityData);
     }
 
