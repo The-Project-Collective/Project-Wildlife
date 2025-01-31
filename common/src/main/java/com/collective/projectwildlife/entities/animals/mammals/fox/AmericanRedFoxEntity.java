@@ -124,7 +124,8 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         this.goalSelector.add(1, new CoreAnimalCheckGroupGoal(this));
         this.goalSelector.add(2, new CoreAnimalLeaderCombineGroupsGoal(this));
         this.goalSelector.add(2, new CoreAnimalCheckGroupLeaderGoal(this));
-        this.goalSelector.add(2, new CoreAnimalBabyFollowGoal(this, 1));
+        this.goalSelector.add(2, new CoreAnimalBabyFollowGoal(this, 1.25f));
+        this.goalSelector.add(2, new CoreAnimalFollowLeaderGoal(this, 1f));
         this.goalSelector.add(3, new CoreAnimalBreedGoal(this, 2.0));
         this.goalSelector.add(5, new MeleeAttackGoal(this, 1.0, true));
         this.goalSelector.add(8, new WanderAroundFarGoal(this, 1.0));
