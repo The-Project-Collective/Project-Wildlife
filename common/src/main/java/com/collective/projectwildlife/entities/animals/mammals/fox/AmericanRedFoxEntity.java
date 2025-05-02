@@ -5,7 +5,7 @@ import com.collective.projectcore.entities.base.CoreAnimalEntity;
 import com.collective.projectcore.entities.variant.VariantContext;
 import com.collective.projectcore.groups.tags.CoreTags;
 import com.collective.projectwildlife.ProjectWildlife;
-import com.collective.projectwildlife.entities.WildlifeEntities;
+import com.collective.projectwildlife.entities.*;
 import com.collective.projectwildlife.groups.tags.WildlifeTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -38,9 +38,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 import software.bernie.geckolib.util.RenderUtil;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimatable {
 
@@ -119,12 +117,17 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     @Override
     protected void initGoals() {
         this.goalSelector.add(0, new CoreAnimalCheckMotherGoal(this));
+        this.goalSelector.add(0, new TestMateCheckGoal(this));
         this.goalSelector.add(0, new CoreAnimalGiveBirthGoal(this, 2.0, 24));
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(1, new CoreAnimalCheckGroupGoal(this));
+        this.goalSelector.add(1, new CoreAnimalLeaderShrinkGroupGoal(this));
+        this.goalSelector.add(1, new TestMotherBabiesCheckGoal(this));
+        this.goalSelector.add(1, new TestParentCheckOffspring(this));
+        this.goalSelector.add(1, new TestAnimalLeaderShrinkGroupGoal(this));
         this.goalSelector.add(2, new CoreAnimalLeaderCombineGroupsGoal(this));
         this.goalSelector.add(2, new CoreAnimalCheckGroupLeaderGoal(this));
-        this.goalSelector.add(2, new CoreAnimalBabyFollowGoal(this, 1.25f));
+        this.goalSelector.add(2, new CoreAnimalBabyFollowGoal(this, 1f));
         this.goalSelector.add(2, new CoreAnimalFollowLeaderGoal(this, 1f));
         this.goalSelector.add(3, new CoreAnimalBreedGoal(this, 2.0));
         this.goalSelector.add(5, new MeleeAttackGoal(this, 1.0, true));
@@ -224,7 +227,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     // --- Age ------------------------------------------------------------------------------------------
     @Override
     public int getAdultDays() {
-        return 3;
+        return 4;
     }
 
     // --- Attributes ------------------------------------------------------------------------------------------
@@ -274,6 +277,11 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
 
     @Override
     public boolean isMonogamous() {
+        return true;
+    }
+
+    @Override
+    public boolean willParent() {
         return true;
     }
 
@@ -339,15 +347,13 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
             return 12;
         } else if (this.getGender() == 1) {
             if (this.isPregnant()) {
+                return 12;
+            } else if (this.isParent()) {
                 return 8;
-            } else if (this.isBabyMother()) {
-                return 4;
-            } else if (this.isChildMother()) {
-                return 6;
             }
-        } else if (this.getGender() == 0) {
-            if (this.isFather()) {
-                return 8;
+        } else {
+            if (this.isParent()) {
+                return 12;
             }
         }
         return 20;
