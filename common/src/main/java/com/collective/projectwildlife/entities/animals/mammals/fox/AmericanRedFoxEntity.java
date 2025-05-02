@@ -117,14 +117,14 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     @Override
     protected void initGoals() {
         this.goalSelector.add(0, new CoreAnimalCheckMotherGoal(this));
-        this.goalSelector.add(0, new TestMateCheckGoal(this));
+        this.goalSelector.add(0, new CoreAnimalMateCheckGoal(this));
         this.goalSelector.add(0, new CoreAnimalGiveBirthGoal(this, 2.0, 24));
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(1, new CoreAnimalCheckGroupGoal(this));
         this.goalSelector.add(1, new CoreAnimalLeaderShrinkGroupGoal(this));
-        this.goalSelector.add(1, new TestMotherBabiesCheckGoal(this));
-        this.goalSelector.add(1, new TestParentCheckOffspring(this));
-        this.goalSelector.add(1, new TestAnimalLeaderShrinkGroupGoal(this));
+        this.goalSelector.add(1, new CoreAnimalMotherCheckBabiesPackGoal(this));
+        this.goalSelector.add(1, new CoreAnimalParentCheckOffspringGoal(this));
+        this.goalSelector.add(1, new CoreAnimalLeaderShrinkGroupGoal(this));
         this.goalSelector.add(2, new CoreAnimalLeaderCombineGroupsGoal(this));
         this.goalSelector.add(2, new CoreAnimalCheckGroupLeaderGoal(this));
         this.goalSelector.add(2, new CoreAnimalBabyFollowGoal(this, 1f));
