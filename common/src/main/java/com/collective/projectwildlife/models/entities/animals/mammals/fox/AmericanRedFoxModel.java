@@ -1,8 +1,10 @@
 package com.collective.projectwildlife.models.entities.animals.mammals.fox;
 
-import com.collective.projectcore.entities.variant.VariantContext;
 import com.collective.projectwildlife.ProjectWildlife;
 import com.collective.projectwildlife.entities.animals.mammals.fox.AmericanRedFoxEntity;
+import com.google.common.collect.Maps;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.texture.*;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animation.AnimationState;
@@ -12,8 +14,12 @@ import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 import software.bernie.geckolib.renderer.GeoRenderer;
 
+import java.io.IOException;
+import java.util.Map;
+
 public class AmericanRedFoxModel extends GeoModel<AmericanRedFoxEntity> {
 
+    private static final Map<String, Identifier> LOCATION_CACHE = Maps.newHashMap();
     public static final String LOCATION = "entity/animal/mammal/fox/";
     public static final float DEG_TO_RAD = 0.017453292F;
 
@@ -24,19 +30,21 @@ public class AmericanRedFoxModel extends GeoModel<AmericanRedFoxEntity> {
 
     @Override
     public Identifier getTextureResource(AmericanRedFoxEntity object, @Nullable GeoRenderer<AmericanRedFoxEntity> renderer) {
-        VariantContext.VariantMorph morph = object.getDirectVariant();
-        if (object.isBaby() || object.isChild()) {
-            if (morph.name().equals("Albino")) {
-                return Identifier.of(ProjectWildlife.MOD_ID, "textures/"+LOCATION+"american_red/baby_albino.png");
-            } else if (morph.isLight()) {
-                return Identifier.of(ProjectWildlife.MOD_ID, "textures/"+LOCATION+"american_red/baby_light.png");
-            } else if (morph.isDark()) {
-                return Identifier.of(ProjectWildlife.MOD_ID, "textures/"+LOCATION+"american_red/baby_dark.png");
-            } else {
-                return Identifier.of(ProjectWildlife.MOD_ID, "textures/"+LOCATION+"american_red/baby.png");
-            }
+        String genes = object.getGenome().toLowerCase()+"_"+object.isAdult();
+        if (LOCATION_CACHE.containsKey(genes)) {
+            return LOCATION_CACHE.get(genes);
         } else {
-            return morph.identifier();
+            try {
+                NativeImage texture = object.colourAmericanRedFox(object);
+                Identifier location = Identifier.of(ProjectWildlife.MOD_ID, "american_red_fox_" +genes);
+                MinecraftClient.getInstance().getTextureManager().registerTexture(location, new NativeImageBackedTexture(texture));
+                LOCATION_CACHE.put(genes, location);
+                return location;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Texture not working!!!");
+            return Identifier.of(ProjectWildlife.MOD_ID, "textures/"+LOCATION+"american_red/base.png");
         }
     }
 
