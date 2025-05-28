@@ -450,12 +450,14 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                 NativeImage statics = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "statics.png"));
 
                 // -- Patterns --
-                //NativeImage pattern_leucistic = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "pattern_leucistic.png"));
-                //NativeImage pattern_white_mark = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "pattern_white_mark.png"));
-                //NativeImage pattern_platinum = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "pattern_platinum.png"));
-                //NativeImage pattern_georgian_white = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "pattern_georgian_white.png"));
-                //NativeImage pattern_marble = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "pattern_marble.png"));
-                //NativeImage pattern_white_marble = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "pattern_white_marble.png"));
+                NativeImage cross_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "cross.png"));
+                NativeImage silver_cross_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "silver_cross.png"));
+                //NativeImage leucistic_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "leucistic.png"));
+                //NativeImage white_mark_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "white_mark.png"));
+                //NativeImage platinum_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "platinum.png"));
+                //NativeImage georgian_white_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "georgian_white.png"));
+                //NativeImage marble_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "marble.png"));
+                //NativeImage white_marble_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "white_marble.png"));
 
 
                 // === Alleles ===
@@ -478,6 +480,8 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                 boolean radium = false;
                 boolean red = false;
                 boolean gold = false;
+                boolean cross = false;
+                boolean silver_cross = false;
                 stainLayer(underbelly, new Color(255, 255, 255));
                 stainLayer(tail_tip, new Color(255, 255, 255));
                 // Albino
@@ -510,11 +514,22 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                             stainLayer(points, geneTextures().getFirst().colours().get("Smoke"));
                             stainLayer(eyes, geneTextures().getFirst().colours().get("Black"));
                             stainLayer(nose, geneTextures().getFirst().colours().get("Black"));
+                            // Gold
                             if (baseAlleles.equals("AABb") || baseAlleles.equals("AaBb")) {
                                 stainLayer(underbelly, geneTextures().getFirst().colours().get("Black"));
                                 gold = true;
                             } else {
                                 red = true;
+                            }
+                            // Cross
+                            if (baseAlleles.equals("AaBB")) {
+                                stainLayer(cross_pattern, geneTextures().getFirst().colours().get("Smoke"));
+                                cross = true;
+                            }
+                            // Silver Cross
+                            if (baseAlleles.equals("AaBb")) {
+                                stainLayer(silver_cross_pattern, geneTextures().getFirst().colours().get("Smoke"));
+                                silver_cross = true;
                             }
                         // Silver
                         } else if (geneTextures().get(1).colours().containsKey(baseAlleles)) {
@@ -533,6 +548,12 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                                 softLightImages(points, pastel_image);
                                 if (gold) {
                                     softLightImages(underbelly, pastel_image);
+                                }
+                                if (cross) {
+                                    softLightImages(cross_pattern, pastel_image);
+                                }
+                                if (silver_cross) {
+                                    softLightImages(silver_cross_pattern, pastel_image);
                                 }
                             } else {
                                 softLightImages(body, pastel_image);
@@ -562,6 +583,12 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                                 if (gold) {
                                     softLightImages(underbelly, burgundy_image);
                                 }
+                                if (cross) {
+                                    softLightImages(cross_pattern, burgundy_image);
+                                }
+                                if (silver_cross) {
+                                    softLightImages(silver_cross_pattern, burgundy_image);
+                                }
                             } else {
                                 softLightImages(body, burgundy_image);
                                 softLightImages(underbelly, burgundy_image);
@@ -576,6 +603,12 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                                 softLightImages(points, pearl_image);
                                 if (gold) {
                                     softLightImages(underbelly, pearl_image);
+                                }
+                                if (cross) {
+                                    softLightImages(cross_pattern, pearl_image);
+                                }
+                                if (silver_cross) {
+                                    softLightImages(silver_cross_pattern, pearl_image);
                                 }
                             } else {
                                 softLightImages(body, pearl_image);
@@ -595,6 +628,12 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                                 if (gold) {
                                     softLightImages(underbelly, mansfield_pearl_image);
                                 }
+                                if (cross) {
+                                    softLightImages(cross_pattern, mansfield_pearl_image);
+                                }
+                                if (silver_cross) {
+                                    softLightImages(silver_cross_pattern, mansfield_pearl_image);
+                                }
                             } else {
                                 softLightImages(body, mansfield_pearl_image);
                                 softLightImages(underbelly, mansfield_pearl_image);
@@ -611,6 +650,12 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                                 softLightImages(points, colicott_image);
                                 if (gold) {
                                     softLightImages(underbelly, colicott_image);
+                                }
+                                if (cross) {
+                                    softLightImages(cross_pattern, colicott_image);
+                                }
+                                if (silver_cross) {
+                                    softLightImages(silver_cross_pattern, colicott_image);
                                 }
                             } else {
                                 softLightImages(body, colicott_image);
@@ -641,6 +686,12 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                     softLightImages(final_image, underbelly);
                 } else {
                     multiplyImages(final_image, underbelly, 1.3f);
+                }
+                if (cross) {
+                    combineWeightedImages(final_image, cross_pattern);
+                }
+                if (silver_cross) {
+                    combineWeightedImages(final_image, silver_cross_pattern);
                 }
                 softLightImages(final_image, tail_tip);
                 combineImages(final_image, nose);
