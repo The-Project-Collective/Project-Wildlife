@@ -30,15 +30,15 @@ public class AmericanRedFoxModel extends GeoModel<AmericanRedFoxEntity> {
 
     @Override
     public Identifier getTextureResource(AmericanRedFoxEntity object, @Nullable GeoRenderer<AmericanRedFoxEntity> renderer) {
-        String genes = object.getGenome().toLowerCase()+"_"+object.isAdult();
-        if (LOCATION_CACHE.containsKey(genes)) {
-            return LOCATION_CACHE.get(genes);
+        String texture_key = object.getUuidAsString().toLowerCase()+"_"+object.isAdult();
+        if (LOCATION_CACHE.containsKey(texture_key)) {
+            return LOCATION_CACHE.get(texture_key);
         } else {
             try {
                 NativeImage texture = object.colourAmericanRedFox(object);
-                Identifier location = Identifier.of(ProjectWildlife.MOD_ID, "american_red_fox_" +genes);
+                Identifier location = Identifier.of(ProjectWildlife.MOD_ID, "american_red_fox_" +texture_key);
                 MinecraftClient.getInstance().getTextureManager().registerTexture(location, new NativeImageBackedTexture(texture));
-                LOCATION_CACHE.put(genes, location);
+                LOCATION_CACHE.put(texture_key, location);
                 return location;
             } catch (IOException e) {
                 e.printStackTrace();
