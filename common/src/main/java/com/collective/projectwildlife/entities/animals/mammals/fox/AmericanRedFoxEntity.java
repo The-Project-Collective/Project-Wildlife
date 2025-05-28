@@ -516,7 +516,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                             stainLayer(nose, geneTextures().getFirst().colours().get("Black"));
                             // Gold
                             if (baseAlleles.equals("AABb") || baseAlleles.equals("AaBb")) {
-                                stainLayer(underbelly, geneTextures().getFirst().colours().get("Black"));
+                                stainLayer(underbelly, geneTextures().getFirst().colours().get("Smoke"));
                                 gold = true;
                             } else {
                                 red = true;
@@ -622,7 +622,6 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                         if (mansfieldPearlAlleles.equals("ss")) {
                             NativeImage mansfield_pearl_image = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "base.png"));
                             stainLayer(mansfield_pearl_image, geneTextures().get(7).colours().get(mansfieldPearlAlleles));
-                            softLightImages(points, mansfield_pearl_image);
                             if (red || gold) {
                                 softLightImages(points, mansfield_pearl_image);
                                 if (gold) {
@@ -681,7 +680,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                 }
                 stainLayer(final_image, new Color(255, 255, 255));
                 multiplyImages(final_image, body, 1f);
-                multiplyImages(final_image, points, 1.5f);
+                multiplyImages(final_image, points, 1f);
                 if (red || albino) {
                     softLightImages(final_image, underbelly);
                 } else {
