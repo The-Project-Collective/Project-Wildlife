@@ -452,7 +452,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                 // -- Patterns --
                 NativeImage cross_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "cross.png"));
                 NativeImage silver_cross_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "silver_cross.png"));
-                //NativeImage leucistic_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "leucistic.png"));
+                NativeImage leucistic_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "leucistic.png"));
                 //NativeImage white_mark_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "white_mark.png"));
                 //NativeImage platinum_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "platinum.png"));
                 //NativeImage georgian_white_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "georgian_white.png"));
@@ -666,10 +666,6 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                         }
                     }
                 // -- Patterns --
-                    // Leucistic
-                    if (leucistic) {
-
-                    }
                     // White Mark
 
                     // Platinum
@@ -691,6 +687,9 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                 }
                 if (silver_cross) {
                     combineWeightedImages(final_image, silver_cross_pattern);
+                }
+                if (leucistic) {
+                    combineWeightedImages(final_image, leucistic_pattern);
                 }
                 softLightImages(final_image, tail_tip);
                 combineImages(final_image, nose);
