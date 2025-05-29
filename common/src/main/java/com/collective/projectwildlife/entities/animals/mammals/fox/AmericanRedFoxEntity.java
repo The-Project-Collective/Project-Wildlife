@@ -235,8 +235,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
             put("eyes", "eyes.png");
         }}; }
         public HashMap<String, Color> colours() { return new HashMap<>() {{
-            put("Cc", new Color(186, 162, 131)); // Leucistic
-            put("cc", new Color(255, 235, 235)); // Albino
+            put("cc", new Color(255, 245, 245)); // Albino
             put("Pink", new Color(250, 150, 150));
         }}; }
         public String modID() { return ProjectWildlife.MOD_ID; }
@@ -454,10 +453,10 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                 NativeImage silver_cross_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "silver_cross.png"));
                 NativeImage leucistic_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "leucistic.png"));
                 NativeImage white_mark_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "white_mark.png"));
-                //NativeImage platinum_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "platinum.png"));
-                //NativeImage georgian_white_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "georgian_white.png"));
-                //NativeImage marble_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "marble.png"));
-                //NativeImage white_marble_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "white_marble.png"));
+                NativeImage platinum_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "platinum.png"));
+                NativeImage georgian_white_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "georgian_white.png"));
+                NativeImage marble_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "marble.png"));
+                NativeImage white_marble_pattern = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "white_marble.png"));
 
 
                 // === Alleles ===
@@ -674,12 +673,32 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                     // White Mark
                     if (whiteSeriesAlleles.equals("Ww") || whiteSeriesAlleles.equals("WM")) {
                         white_mark = true;
+                        if (whiteSeriesAlleles.equals("WM")) {
+                            marble = true;
+                        }
                     }
                     // Platinum
-
+                    if (whiteSeriesAlleles.equals("Qw") || whiteSeriesAlleles.equals("QM")) {
+                        platinum = true;
+                        if (whiteSeriesAlleles.equals("QM")) {
+                            marble = true;
+                        }
+                    }
                     // Georgian White
-
-                    // Marble / White Marble
+                    if (whiteSeriesAlleles.equals("Ow") || whiteSeriesAlleles.equals("OM")) {
+                        georgian_white = true;
+                        if (whiteSeriesAlleles.equals("OM")) {
+                            marble = true;
+                        }
+                    }
+                    // Marble
+                    if (whiteSeriesAlleles.equals("Mw")) {
+                        marble = true;
+                    }
+                    // White Marble
+                    if (whiteSeriesAlleles.equals("MM")) {
+                        white_marble = true;
+                    }
                 }
                 stainLayer(final_image, new Color(255, 255, 255));
                 multiplyImages(final_image, body, 1f);
@@ -697,6 +716,18 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                 }
                 if (white_mark) {
                     combineWeightedImages(final_image, white_mark_pattern);
+                }
+                if (platinum) {
+                    combineWeightedImages(final_image, platinum_pattern);
+                }
+                if (georgian_white) {
+                    combineWeightedImages(final_image, georgian_white_pattern);
+                }
+                if (marble) {
+                    combineWeightedImages(final_image, marble_pattern);
+                }
+                if (white_marble) {
+                    combineWeightedImages(final_image, white_marble_pattern);
                 }
                 if (leucistic) {
                     combineWeightedImages(final_image, leucistic_pattern);
