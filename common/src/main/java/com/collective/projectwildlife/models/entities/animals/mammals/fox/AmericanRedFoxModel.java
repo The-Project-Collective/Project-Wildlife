@@ -30,7 +30,8 @@ public class AmericanRedFoxModel extends GeoModel<AmericanRedFoxEntity> {
 
     @Override
     public Identifier getTextureResource(AmericanRedFoxEntity object, @Nullable GeoRenderer<AmericanRedFoxEntity> renderer) {
-        String texture_key = object.getUuidAsString().toLowerCase()+"_"+object.isAdult();
+        boolean baby_texture = object.isBaby() || object.isChild();
+        String texture_key = object.getUuidAsString().toLowerCase()+"_"+baby_texture;
         if (LOCATION_CACHE.containsKey(texture_key)) {
             return LOCATION_CACHE.get(texture_key);
         } else {

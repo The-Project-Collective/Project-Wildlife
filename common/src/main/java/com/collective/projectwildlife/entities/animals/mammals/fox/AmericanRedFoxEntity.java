@@ -4,8 +4,7 @@ import com.collective.projectcore.entities.ai.goals.*;
 import com.collective.projectcore.entities.base.CoreAnimalEntity;
 import com.collective.projectcore.entities.genetics.GeneticContext;
 import com.collective.projectcore.groups.tags.CoreTags;
-import com.collective.projectwildlife.util.CoreTextureContext;
-import com.collective.projectcore.utils.UtilMethods;
+import com.collective.projectcore.util.CoreTextureContext;
 import com.collective.projectwildlife.ProjectWildlife;
 import com.collective.projectwildlife.entities.*;
 import com.collective.projectwildlife.groups.tags.WildlifeTags;
@@ -18,6 +17,9 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageSources;
+import net.minecraft.entity.damage.DamageType;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
@@ -161,6 +163,17 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         this.setPack(List.of(this.getUuidAsString()));
         this.calculateDimensions();
         return super.initialize(world, difficulty, spawnReason, entityData);
+    }
+
+    // --- Ticking ------------------------------------------------------------------------------------------
+    @Override
+    public void tickMovement() {
+        super.tickMovement();
+        if (this.hasGenetics() && this.getGenome() != null && !this.getGenome().isEmpty()) {
+            if (!this.isGeneticallyViable(this.getGenome()) && this.getWorld() instanceof ServerWorld serverWorld) {
+                this.damage(serverWorld, this.getDamageSources().genericKill(), this.getMaxHealth() + 10);
+            }
+        }
     }
 
 
@@ -345,7 +358,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         }}; }
         public HashMap<String, Color> colours() { return new HashMap<>() {{
             put("ss", new Color(190, 167, 170)); // Mansfield Pearl
-            put("Brown", new Color(110, 59, 38));
+            put("Brown", new Color(120, 59, 38));
         }}; }
         public String modID() { return ProjectWildlife.MOD_ID; }
     }
@@ -368,7 +381,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         }}; }
         public HashMap<String, Color> colours() { return new HashMap<>() {{
             put("tt", new Color(235, 185, 151)); // Colicott
-            put("Blue", new Color(36, 93, 101));
+            put("Blue", new Color(66, 123, 131));
         }}; }
         public String modID() { return ProjectWildlife.MOD_ID; }
     }
@@ -401,7 +414,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         public boolean dominant() { return false; }
         public boolean partialDominant() { return false; }
         public boolean homozygousLethal() { return true; }
-        public List<String> lethalGenes() { return List.of("W", "Q", "O"); }
+        public List<String> lethalGenes() { return List.of("WW", "WQ", "WO", "QQ", "QO", "OO"); }
         public String relativeTexturePath() { return GENETICS_TEXTURES_PATH; }
         public HashMap<String, String> textures() { return new HashMap<>() {{
             put("W", "white_mark.png");
@@ -432,9 +445,8 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                     new Pearl(), new MansfieldPearl(), new Colicott(), new Radium(), new WhiteSeries());
         }
         public String animalName() { return "american_red_fox"; }
-        public NativeImage colourSpecificEntities(CoreAnimalEntity coreAnimalEntity, List<BaseGeneTexture> list, String s) throws IOException {
-            Random random = new Random();
-            NativeImage final_image = getNativeImageFromResourceLocation(Identifier.of(ProjectWildlife.MOD_ID, "textures/entity/"+GENETICS_TEXTURES_PATH+"base.png"));;
+        public NativeImage colourSpecificEntities(CoreAnimalEntity coreAnimalEntity, List<BaseGeneTexture> list, String s) {
+            NativeImage final_image = getNativeImageFromResourceLocation(Identifier.of(ProjectWildlife.MOD_ID, "textures/entity/"+GENETICS_TEXTURES_PATH+"base.png"));
             if (coreAnimalEntity.getGenome() != null && !coreAnimalEntity.getGenome().isEmpty()) {
                 String genome = coreAnimalEntity.getGenome();
 
@@ -474,6 +486,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
 
                 // === Texture Calculations ===
                 // -- Base --
+                boolean baby_texture = coreAnimalEntity.isBaby() || coreAnimalEntity.isChild();
                 boolean albino = false;
                 boolean leucistic = false;
                 boolean radium = false;
@@ -504,166 +517,199 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                 if (!albino) {
                     // Radium
                     if (geneTextures().get(9).colours().containsKey(radiumAlleles)) {
-                        stainLayer(body, geneTextures().get(9).colours().get(radiumAlleles));
-                        stainLayer(underbelly, geneTextures().get(9).colours().get(radiumAlleles));
-                        stainLayer(points, geneTextures().get(9).colours().get(radiumAlleles));
+                        if (baby_texture) {
+                            stainLayer(body, new Color(85, 75, 70));
+                            stainLayer(underbelly, new Color(85, 75, 70));
+                            stainLayer(points, new Color(85, 75, 70));
+                            stainLayer(nose, new Color(135, 95, 95));
+                        } else {
+                            stainLayer(body, geneTextures().get(9).colours().get(radiumAlleles));
+                            stainLayer(underbelly, geneTextures().get(9).colours().get(radiumAlleles));
+                            stainLayer(points, geneTextures().get(9).colours().get(radiumAlleles));
+                            stainLayer(nose, geneTextures().getFirst().colours().get("Black"));
+                        }
                         stainLayer(eyes, geneTextures().get(9).colours().get("Pink"));
-                        stainLayer(nose, geneTextures().getFirst().colours().get("Black"));
                         radium = true;
                     }
                     if (!radium) {
                         // Red
                         if (geneTextures().getFirst().colours().containsKey(baseAlleles)) {
-                            stainLayer(body, geneTextures().getFirst().colours().get(baseAlleles));
-                            stainLayer(points, geneTextures().getFirst().colours().get("Smoke"));
-                            stainLayer(eyes, geneTextures().getFirst().colours().get("Black"));
-                            stainLayer(nose, geneTextures().getFirst().colours().get("Black"));
-                            // Gold
-                            if (baseAlleles.equals("AABb") || baseAlleles.equals("AaBb")) {
-                                stainLayer(underbelly, geneTextures().getFirst().colours().get("Smoke"));
-                                gold = true;
+                            if (baby_texture) {
+                                stainLayer(body, new Color(85, 75, 70));
+                                stainLayer(underbelly, new Color(85, 75, 70));
+                                stainLayer(points, new Color(85, 75, 70));
+                                stainLayer(nose, new Color(135, 95, 95));
                             } else {
-                                red = true;
+                                stainLayer(body, geneTextures().getFirst().colours().get(baseAlleles));
+                                stainLayer(points, geneTextures().getFirst().colours().get("Smoke"));
+                                stainLayer(nose, geneTextures().getFirst().colours().get("Black"));
+                                // Gold
+                                if (baseAlleles.equals("AABb") || baseAlleles.equals("AaBb")) {
+                                    stainLayer(underbelly, geneTextures().getFirst().colours().get("Smoke"));
+                                    gold = true;
+                                } else {
+                                    red = true;
+                                }
+                                // Cross
+                                if (baseAlleles.equals("AaBB")) {
+                                    stainLayer(cross_pattern, geneTextures().getFirst().colours().get("Smoke"));
+                                    cross = true;
+                                }
+                                // Silver Cross
+                                if (baseAlleles.equals("AaBb")) {
+                                    stainLayer(silver_cross_pattern, geneTextures().getFirst().colours().get("Smoke"));
+                                    silver_cross = true;
+                                }
                             }
-                            // Cross
-                            if (baseAlleles.equals("AaBB")) {
-                                stainLayer(cross_pattern, geneTextures().getFirst().colours().get("Smoke"));
-                                cross = true;
-                            }
-                            // Silver Cross
-                            if (baseAlleles.equals("AaBb")) {
-                                stainLayer(silver_cross_pattern, geneTextures().getFirst().colours().get("Smoke"));
-                                silver_cross = true;
-                            }
-                        // Silver
+                            stainLayer(eyes, geneTextures().getFirst().colours().get("Black"));
+                            // Silver
                         } else if (geneTextures().get(1).colours().containsKey(baseAlleles)) {
-                            stainLayer(body, geneTextures().get(1).colours().get(baseAlleles));
-                            stainLayer(underbelly, geneTextures().get(1).colours().get(baseAlleles));
-                            stainLayer(points, geneTextures().get(1).colours().get(baseAlleles));
+                            if (baby_texture) {
+                                stainLayer(body, new Color(85, 75, 70));
+                                stainLayer(underbelly, new Color(85, 75, 70));
+                                stainLayer(points, new Color(85, 75, 70));
+                                stainLayer(nose, new Color(135, 95, 95));
+                            } else {
+                                stainLayer(body, geneTextures().get(1).colours().get(baseAlleles));
+                                stainLayer(underbelly, geneTextures().get(1).colours().get(baseAlleles));
+                                stainLayer(points, geneTextures().get(1).colours().get(baseAlleles));
+                                stainLayer(nose, geneTextures().getFirst().colours().get("Black"));
+                            }
                             stainLayer(eyes, geneTextures().get(1).colours().get("Pitch"));
-                            stainLayer(nose, geneTextures().getFirst().colours().get("Black"));
                         }
                         // -- Dilutions --
                         // Pastel
                         if (pastelAlleles.equals("ee")) {
-                            NativeImage pastel_image = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "base.png"));
-                            stainLayer(pastel_image, geneTextures().get(3).colours().get(pastelAlleles));
-                            if (red || gold) {
-                                softLightImages(points, pastel_image);
-                                if (gold) {
+                            if (!baby_texture) {
+                                NativeImage pastel_image = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "base.png"));
+                                stainLayer(pastel_image, geneTextures().get(3).colours().get(pastelAlleles));
+                                if (red || gold) {
+                                    softLightImages(points, pastel_image);
+                                    if (gold) {
+                                        softLightImages(underbelly, pastel_image);
+                                    }
+                                    if (cross) {
+                                        softLightImages(cross_pattern, pastel_image);
+                                    }
+                                    if (silver_cross) {
+                                        softLightImages(silver_cross_pattern, pastel_image);
+                                    }
+                                } else {
+                                    softLightImages(body, pastel_image);
                                     softLightImages(underbelly, pastel_image);
+                                    softLightImages(points, pastel_image);
                                 }
-                                if (cross) {
-                                    softLightImages(cross_pattern, pastel_image);
-                                }
-                                if (silver_cross) {
-                                    softLightImages(silver_cross_pattern, pastel_image);
-                                }
-                            } else {
-                                softLightImages(body, pastel_image);
-                                softLightImages(underbelly, pastel_image);
-                                softLightImages(points, pastel_image);
                             }
                             eyes = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "eyes.png"));
                             stainLayer(eyes, geneTextures().get(3).colours().get("Brown"));
                         }
                         // Fire Factor
-                        if (red && !fireFoxAlleles.equals("FF") || gold & geneTextures().get(4).colours().containsKey(fireFoxAlleles)) {
-                            NativeImage fire_fox_image = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "base.png"));
-                            if (fireFoxAlleles.equals("Ff")) {
-                                stainLayer(fire_fox_image, geneTextures().get(4).colours().get(fireFoxAlleles));
-                                softLightImages(body, fire_fox_image);
-                            } else {
-                                body = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "body.png"));
-                                stainLayer(body, geneTextures().get(4).colours().get(fireFoxAlleles));
+                        if (!baby_texture) {
+                            if (red && !fireFoxAlleles.equals("FF") || gold & geneTextures().get(4).colours().containsKey(fireFoxAlleles)) {
+                                NativeImage fire_fox_image = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "base.png"));
+                                if (fireFoxAlleles.equals("Ff")) {
+                                    stainLayer(fire_fox_image, geneTextures().get(4).colours().get(fireFoxAlleles));
+                                    softLightImages(body, fire_fox_image);
+                                } else {
+                                    body = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "body.png"));
+                                    stainLayer(body, geneTextures().get(4).colours().get(fireFoxAlleles));
+                                }
                             }
                         }
                         // Burgundy
                         if (burgundyAlleles.equals("gg")) {
-                            NativeImage burgundy_image = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "base.png"));
-                            stainLayer(burgundy_image, geneTextures().get(5).colours().get(burgundyAlleles));
-                            if (red || gold) {
-                                softLightImages(points, burgundy_image);
-                                if (gold) {
+                            if (!baby_texture) {
+                                NativeImage burgundy_image = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "base.png"));
+                                stainLayer(burgundy_image, geneTextures().get(5).colours().get(burgundyAlleles));
+                                if (red || gold) {
+                                    softLightImages(points, burgundy_image);
+                                    if (gold) {
+                                        softLightImages(underbelly, burgundy_image);
+                                    }
+                                    if (cross) {
+                                        softLightImages(cross_pattern, burgundy_image);
+                                    }
+                                    if (silver_cross) {
+                                        softLightImages(silver_cross_pattern, burgundy_image);
+                                    }
+                                } else {
+                                    softLightImages(body, burgundy_image);
                                     softLightImages(underbelly, burgundy_image);
+                                    softLightImages(points, burgundy_image);
                                 }
-                                if (cross) {
-                                    softLightImages(cross_pattern, burgundy_image);
-                                }
-                                if (silver_cross) {
-                                    softLightImages(silver_cross_pattern, burgundy_image);
-                                }
-                            } else {
-                                softLightImages(body, burgundy_image);
-                                softLightImages(underbelly, burgundy_image);
-                                softLightImages(points, burgundy_image);
                             }
                         }
                         // Pearl
                         if (pearlAlleles.equals("pp")) {
-                            NativeImage pearl_image = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "base.png"));
-                            stainLayer(pearl_image, geneTextures().get(6).colours().get(pearlAlleles));
-                            if (red || gold) {
-                                softLightImages(points, pearl_image);
-                                if (gold) {
+                            if (!baby_texture) {
+                                NativeImage pearl_image = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "base.png"));
+                                stainLayer(pearl_image, geneTextures().get(6).colours().get(pearlAlleles));
+                                if (red || gold) {
+                                    softLightImages(points, pearl_image);
+                                    if (gold) {
+                                        softLightImages(underbelly, pearl_image);
+                                    }
+                                    if (cross) {
+                                        softLightImages(cross_pattern, pearl_image);
+                                    }
+                                    if (silver_cross) {
+                                        softLightImages(silver_cross_pattern, pearl_image);
+                                    }
+                                } else {
+                                    softLightImages(body, pearl_image);
                                     softLightImages(underbelly, pearl_image);
+                                    softLightImages(points, pearl_image);
                                 }
-                                if (cross) {
-                                    softLightImages(cross_pattern, pearl_image);
-                                }
-                                if (silver_cross) {
-                                    softLightImages(silver_cross_pattern, pearl_image);
-                                }
-                            } else {
-                                softLightImages(body, pearl_image);
-                                softLightImages(underbelly, pearl_image);
-                                softLightImages(points, pearl_image);
                             }
                             eyes = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "eyes.png"));
                             stainLayer(eyes, geneTextures().get(6).colours().get("Brown"));
                         }
                         // Mansfield Pearl
                         if (mansfieldPearlAlleles.equals("ss")) {
-                            NativeImage mansfield_pearl_image = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "base.png"));
-                            stainLayer(mansfield_pearl_image, geneTextures().get(7).colours().get(mansfieldPearlAlleles));
-                            if (red || gold) {
-                                softLightImages(points, mansfield_pearl_image);
-                                if (gold) {
+                            if (!baby_texture) {
+                                NativeImage mansfield_pearl_image = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "base.png"));
+                                stainLayer(mansfield_pearl_image, geneTextures().get(7).colours().get(mansfieldPearlAlleles));
+                                if (red || gold) {
+                                    softLightImages(points, mansfield_pearl_image);
+                                    if (gold) {
+                                        softLightImages(underbelly, mansfield_pearl_image);
+                                    }
+                                    if (cross) {
+                                        softLightImages(cross_pattern, mansfield_pearl_image);
+                                    }
+                                    if (silver_cross) {
+                                        softLightImages(silver_cross_pattern, mansfield_pearl_image);
+                                    }
+                                } else {
+                                    softLightImages(body, mansfield_pearl_image);
                                     softLightImages(underbelly, mansfield_pearl_image);
+                                    softLightImages(points, mansfield_pearl_image);
                                 }
-                                if (cross) {
-                                    softLightImages(cross_pattern, mansfield_pearl_image);
-                                }
-                                if (silver_cross) {
-                                    softLightImages(silver_cross_pattern, mansfield_pearl_image);
-                                }
-                            } else {
-                                softLightImages(body, mansfield_pearl_image);
-                                softLightImages(underbelly, mansfield_pearl_image);
-                                softLightImages(points, mansfield_pearl_image);
                             }
                             eyes = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "eyes.png"));
                             stainLayer(eyes, geneTextures().get(7).colours().get("Brown"));
                         }
                         // Colicott
                         if (geneTextures().get(8).colours().containsKey(colicottAlleles)) {
-                            NativeImage colicott_image = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "base.png"));
-                            stainLayer(colicott_image, geneTextures().get(8).colours().get(colicottAlleles));
-                            if (red || gold) {
-                                softLightImages(points, colicott_image);
-                                if (gold) {
+                            if (!baby_texture) {
+                                NativeImage colicott_image = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "base.png"));
+                                stainLayer(colicott_image, geneTextures().get(8).colours().get(colicottAlleles));
+                                if (red || gold) {
+                                    softLightImages(points, colicott_image);
+                                    if (gold) {
+                                        softLightImages(underbelly, colicott_image);
+                                    }
+                                    if (cross) {
+                                        softLightImages(cross_pattern, colicott_image);
+                                    }
+                                    if (silver_cross) {
+                                        softLightImages(silver_cross_pattern, colicott_image);
+                                    }
+                                } else {
+                                    softLightImages(body, colicott_image);
                                     softLightImages(underbelly, colicott_image);
+                                    softLightImages(points, colicott_image);
                                 }
-                                if (cross) {
-                                    softLightImages(cross_pattern, colicott_image);
-                                }
-                                if (silver_cross) {
-                                    softLightImages(silver_cross_pattern, colicott_image);
-                                }
-                            } else {
-                                softLightImages(body, colicott_image);
-                                softLightImages(underbelly, colicott_image);
-                                softLightImages(points, colicott_image);
                             }
                             eyes = getNativeImageFromResourceLocation(Identifier.of(geneTextures().getFirst().identifier() + "eyes.png"));
                             stainLayer(eyes, geneTextures().get(8).colours().get("Blue"));
@@ -701,12 +747,18 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                     }
                 }
                 stainLayer(final_image, new Color(255, 255, 255));
-                multiplyImages(final_image, body, 1f);
-                multiplyImages(final_image, points, 1f);
-                if (red || albino) {
-                    softLightImages(final_image, underbelly);
+                if (albino || baby_texture) {
+                    combineWeightedImages(final_image, body);
+                    combineWeightedImages(final_image, points);
+                    combineWeightedImages(final_image, underbelly);
                 } else {
-                    multiplyImages(final_image, underbelly, 1.3f);
+                    multiplyImages(final_image, body, 1f);
+                    multiplyImages(final_image, points, 1f);
+                    if (red) {
+                        softLightImages(final_image, underbelly);
+                    } else {
+                        multiplyImages(final_image, underbelly, 1.3f);
+                    }
                 }
                 if (cross) {
                     combineWeightedImages(final_image, cross_pattern);
@@ -823,6 +875,11 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     @Override
     public String calculateWildGenome() {
         return geneticsContext.setRandomGenes(true);
+    }
+
+    @Override
+    public boolean isGeneticallyViable(String genome) {
+        return !geneticsContext.isHomozygousLethal(genome);
     }
 
     // --- Home Pos ------------------------------------------------------------------------------------------
