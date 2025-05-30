@@ -15,17 +15,16 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageSources;
-import net.minecraft.entity.damage.DamageType;
-import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -180,7 +179,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
 
     // === GENETICS =======================================================================================================================================================================
 
-    // --- Genes ------------------------------------------------------------------------------------------
+    // --- Appearance Genes ------------------------------------------------------------------------------------------
     public record Red() implements GeneticContext.Gene, CoreTextureContext.BaseGeneTexture {
         public String name() { return "Red"; }
         public List<String> alleles() { return List.of("A", "a"); }
@@ -429,6 +428,46 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         public String modID() { return ProjectWildlife.MOD_ID; }
     }
 
+    // --- Stat Genes ------------------------------------------------------------------------------------------
+    public record Size() implements GeneticContext.Gene {
+        public String name() { return "Size"; }
+        public List<String> alleles() { return List.of("A", "a", "B", "b", "C", "c", "D", "d"); }
+        public List<String> wildAlleles() { return List.of("C", "c", "D", "d"); }
+        public boolean dominant() { return true; }
+        public boolean partialDominant() { return false; }
+        public boolean homozygousLethal() { return false; }
+        public List<String> lethalGenes() { return null; }
+    }
+
+    public record Health() implements GeneticContext.Gene {
+        public String name() { return "Health"; }
+        public List<String> alleles() { return List.of("A", "a", "B", "b", "C", "c", "D", "d"); }
+        public List<String> wildAlleles() { return List.of("C", "c", "D", "d"); }
+        public boolean dominant() { return true; }
+        public boolean partialDominant() { return false; }
+        public boolean homozygousLethal() { return false; }
+        public List<String> lethalGenes() { return null; }
+    }
+
+    public record Speed() implements GeneticContext.Gene {
+        public String name() { return "Speed"; }
+        public List<String> alleles() { return List.of("A", "a", "B", "b", "C", "c", "D", "d"); }
+        public List<String> wildAlleles() { return List.of("C", "c", "D", "d"); }
+        public boolean dominant() { return true; }
+        public boolean partialDominant() { return false; }
+        public boolean homozygousLethal() { return false; }
+        public List<String> lethalGenes() { return null; }
+    }
+
+    public record AttackDamage() implements GeneticContext.Gene {
+        public String name() { return "AttackDamage"; }
+        public List<String> alleles() { return List.of("A", "a", "B", "b", "C", "c", "D", "d"); }
+        public List<String> wildAlleles() { return List.of("C", "c", "D", "d"); }
+        public boolean dominant() { return true; }
+        public boolean partialDominant() { return false; }
+        public boolean homozygousLethal() { return false; }
+        public List<String> lethalGenes() { return null; }
+    }
 
     // --- Methods ------------------------------------------------------------------------------------------
     public NativeImage colourAmericanRedFox(AmericanRedFoxEntity fox) throws IOException {
@@ -437,7 +476,8 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
 
     public static final GeneticContext geneticsContext = () -> List.of(
             new Red(), new Silver(), new Albino(), new Pastel(), new FireFactor(), new Burgundy(),
-            new Pearl(), new MansfieldPearl(), new Colicott(), new Radium(), new WhiteSeries());
+            new Pearl(), new MansfieldPearl(), new Colicott(), new Radium(), new WhiteSeries(),
+            new Size(), new Health(), new Speed(), new AttackDamage());
 
     public static final CoreTextureContext coreTextureContext = new CoreTextureContext() {
         public List<BaseGeneTexture> geneTextures() { return List.of(
@@ -504,9 +544,6 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                 // Albino
                 if (!albinoAlleles.equals("CC")) {
                     if (albinoAlleles.equals("cc")) {
-                        stainLayer(body, geneTextures().get(2).colours().get(albinoAlleles));
-                        stainLayer(underbelly, geneTextures().get(2).colours().get(albinoAlleles));
-                        stainLayer(points, geneTextures().get(2).colours().get(albinoAlleles));
                         stainLayer(eyes, geneTextures().get(2).colours().get("Pink"));
                         stainLayer(nose, geneTextures().get(2).colours().get("Pink"));
                         albino = true;
@@ -804,23 +841,56 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     // --- Attributes ------------------------------------------------------------------------------------------
     @Override
     public void updateAttributes(int age) {
-        if (age == 0) { // Adult
-            Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)).setBaseValue(0.35D);
-            Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)).setBaseValue(6.0D);
-            Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MAX_HEALTH)).setBaseValue(8.0D);
-            this.setBreedingTicks(this.random.nextInt(6000) + 6000);
-        } else if (age == 1) { // Juvenile
-            Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)).setBaseValue(0.30D);
-            Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)).setBaseValue(4.0D);
-            Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MAX_HEALTH)).setBaseValue(6.0D);
-        } else if (age == 2) { // Child
-            Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)).setBaseValue(0.25D);
-            Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)).setBaseValue(2.0D);
-            Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MAX_HEALTH)).setBaseValue(4.0D);
-        } else { // Baby
-            Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)).setBaseValue(0.2D);
-            Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)).setBaseValue(1.0D);
-            Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MAX_HEALTH)).setBaseValue(2.0D);
+        if (this.hasGenetics() && this.getGenome() != null && !this.getGenome().isEmpty()) {
+            if (age == 0) { // Adult
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)).setBaseValue(this.calculateStats(
+                        0.35D, this.getGenome(), this.getAttributeGeneIndex(EntityAttributes.MOVEMENT_SPEED), this.getAttributeCoeff(EntityAttributes.MOVEMENT_SPEED)));
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)).setBaseValue(this.calculateStats(
+                        6.0D, this.getGenome(), this.getAttributeGeneIndex(EntityAttributes.ATTACK_DAMAGE), this.getAttributeCoeff(EntityAttributes.ATTACK_DAMAGE)));
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MAX_HEALTH)).setBaseValue(this.calculateStats(
+                        8.0D, this.getGenome(), this.getAttributeGeneIndex(EntityAttributes.MAX_HEALTH), this.getAttributeCoeff(EntityAttributes.MAX_HEALTH)));
+                this.setBreedingTicks(this.random.nextInt(6000) + 6000);
+            } else if (age == 1) { // Juvenile
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)).setBaseValue(this.calculateStats(
+                        0.30D, this.getGenome(), this.getAttributeGeneIndex(EntityAttributes.MOVEMENT_SPEED), this.getAttributeCoeff(EntityAttributes.MOVEMENT_SPEED)));
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)).setBaseValue(this.calculateStats(
+                        4.0D, this.getGenome(), this.getAttributeGeneIndex(EntityAttributes.ATTACK_DAMAGE), this.getAttributeCoeff(EntityAttributes.ATTACK_DAMAGE)));
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MAX_HEALTH)).setBaseValue(this.calculateStats(
+                        6.0D, this.getGenome(), this.getAttributeGeneIndex(EntityAttributes.MAX_HEALTH), this.getAttributeCoeff(EntityAttributes.MAX_HEALTH)));
+            } else if (age == 2) { // Child
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)).setBaseValue(this.calculateStats(
+                        0.25D, this.getGenome(), this.getAttributeGeneIndex(EntityAttributes.MOVEMENT_SPEED), this.getAttributeCoeff(EntityAttributes.MOVEMENT_SPEED)));
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)).setBaseValue(this.calculateStats(
+                        2.0D, this.getGenome(), this.getAttributeGeneIndex(EntityAttributes.ATTACK_DAMAGE), this.getAttributeCoeff(EntityAttributes.ATTACK_DAMAGE)));
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MAX_HEALTH)).setBaseValue(this.calculateStats(
+                        4.0D, this.getGenome(), this.getAttributeGeneIndex(EntityAttributes.MAX_HEALTH), this.getAttributeCoeff(EntityAttributes.MAX_HEALTH)));
+            } else { // Baby
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)).setBaseValue(this.calculateStats(
+                        0.2D, this.getGenome(), this.getAttributeGeneIndex(EntityAttributes.MOVEMENT_SPEED), this.getAttributeCoeff(EntityAttributes.MOVEMENT_SPEED)));
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)).setBaseValue(this.calculateStats(
+                        1.0D, this.getGenome(), this.getAttributeGeneIndex(EntityAttributes.ATTACK_DAMAGE), this.getAttributeCoeff(EntityAttributes.ATTACK_DAMAGE)));
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MAX_HEALTH)).setBaseValue(this.calculateStats(
+                        2.0D, this.getGenome(), this.getAttributeGeneIndex(EntityAttributes.MAX_HEALTH), this.getAttributeCoeff(EntityAttributes.MAX_HEALTH)));
+            }
+        } else {
+            if (age == 0) { // Adult
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)).setBaseValue(0.35D);
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)).setBaseValue(6.0D);
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MAX_HEALTH)).setBaseValue(8.0D);
+                this.setBreedingTicks(this.random.nextInt(6000) + 6000);
+            } else if (age == 1) { // Juvenile
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)).setBaseValue(0.30D);
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)).setBaseValue(4.0D);
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MAX_HEALTH)).setBaseValue(6.0D);
+            } else if (age == 2) { // Child
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)).setBaseValue(0.25D);
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)).setBaseValue(2.0D);
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MAX_HEALTH)).setBaseValue(4.0D);
+            } else { // Baby
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)).setBaseValue(0.2D);
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)).setBaseValue(1.0D);
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.MAX_HEALTH)).setBaseValue(2.0D);
+            }
         }
     }
 
@@ -880,6 +950,47 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     @Override
     public boolean isGeneticallyViable(String genome) {
         return !geneticsContext.isHomozygousLethal(genome);
+    }
+
+    @Override
+    public double calculateStats(double statValue, String genome, int geneIndex, float coefficient) {
+        return geneticsContext.calculateStats(statValue, genome, geneIndex, coefficient);
+    }
+
+    @Override
+    public int getSizeGeneIndex() {
+        return coreTextureContext.geneTextures().indexOf(coreTextureContext.geneTextures().getLast()) + 1;
+    }
+
+    @Override
+    public float getSizeCoeff() {
+        return 0.05f;
+    }
+
+    @Override
+    public int getAttributeGeneIndex(RegistryEntry<EntityAttribute> attribute) {
+        if (attribute.equals(EntityAttributes.MAX_HEALTH)) {
+            return coreTextureContext.geneTextures().indexOf(coreTextureContext.geneTextures().getLast()) + 2;
+        } else if (attribute.equals(EntityAttributes.MOVEMENT_SPEED)) {
+            return coreTextureContext.geneTextures().indexOf(coreTextureContext.geneTextures().getLast()) + 3;
+        } else if (attribute.equals(EntityAttributes.ATTACK_DAMAGE)) {
+            return coreTextureContext.geneTextures().indexOf(coreTextureContext.geneTextures().getLast()) + 4;
+        } else {
+            return coreTextureContext.geneTextures().indexOf(coreTextureContext.geneTextures().getLast()) + 1;
+        }
+    }
+
+    @Override
+    public float getAttributeCoeff(RegistryEntry<EntityAttribute> attribute) {
+        if (attribute.equals(EntityAttributes.MAX_HEALTH)) {
+            return coreTextureContext.geneTextures().indexOf(coreTextureContext.geneTextures().getLast()) + 2;
+        } else if (attribute.equals(EntityAttributes.MOVEMENT_SPEED)) {
+            return coreTextureContext.geneTextures().indexOf(coreTextureContext.geneTextures().getLast()) + 3;
+        } else if (attribute.equals(EntityAttributes.ATTACK_DAMAGE)) {
+            return coreTextureContext.geneTextures().indexOf(coreTextureContext.geneTextures().getLast()) + 4;
+        } else {
+            return 1;
+        }
     }
 
     // --- Home Pos ------------------------------------------------------------------------------------------
