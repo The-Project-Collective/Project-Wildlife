@@ -1,6 +1,6 @@
 package com.collective.projectwildlife.blocks.machines;
 
-import com.collective.projectcore.blocks.CoreFeederBlock;
+import com.collective.projectcore.blocks.machines.CoreFeederBlock;
 import com.collective.projectwildlife.blockentities.WildlifeBlockEntities;
 import com.collective.projectwildlife.blockentities.machines.FeederBlockEntity;
 import com.mojang.serialization.MapCodec;

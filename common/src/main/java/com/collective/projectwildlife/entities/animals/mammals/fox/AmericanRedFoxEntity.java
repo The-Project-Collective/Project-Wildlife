@@ -1,7 +1,7 @@
 package com.collective.projectwildlife.entities.animals.mammals.fox;
 
+import com.collective.projectcore.entities.CoreAnimalEntity;
 import com.collective.projectcore.entities.ai.goals.*;
-import com.collective.projectcore.entities.base.CoreAnimalEntity;
 import com.collective.projectcore.entities.genetics.GeneticContext;
 import com.collective.projectcore.groups.tags.CoreTags;
 import com.collective.projectcore.util.CoreTextureContext;
@@ -58,7 +58,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     public static final RawAnimation RUN = RawAnimation.begin().thenLoop("animation.american_red.run");
     
     public AmericanRedFoxEntity(EntityType<? extends AnimalEntity> entityType, World world) {
-        super(entityType, world, true, true, true, true, true, true, true, true);
+        super(entityType, world, true, true, true, true, true, true, true, true, true);
     }
 
     // === MAIN METHODS =======================================================================================================================================================================
@@ -128,6 +128,8 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         this.goalSelector.add(0, new CoreAnimalMateCheckGoal(this));
         this.goalSelector.add(0, new CoreAnimalGiveBirthGoal(this, 2.0, 24));
         this.goalSelector.add(1, new SwimGoal(this));
+        this.goalSelector.add(1, new CoreAnimalEatGoal(this, 1.0, 24));
+        this.goalSelector.add(1, new CoreAnimalPlayWithEnrichmentGoal(this, 1.0, 24));
         this.goalSelector.add(1, new CoreAnimalCheckGroupGoal(this));
         this.goalSelector.add(1, new CoreAnimalLeaderShrinkGroupGoal(this));
         this.goalSelector.add(1, new CoreAnimalMotherCheckBabiesPackGoal(this));
@@ -153,6 +155,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
         this.setAgeTicks(this.getAdultDays() * 24000);
         this.setBreedingTicks(6000 + random. nextInt(6000));
+        this.setEnrichment(this.getMaxEnrichment());
         this.setGender(random.nextInt(2));
         this.setHunger(this.getMaxFood());
         if (this.getGenome().isEmpty()) {
@@ -926,13 +929,24 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         return true;
     }
 
+    // --- Enrichment ------------------------------------------------------------------------------------------
+    @Override
+    public int getMaxEnrichment() {
+        return 100;
+    }
+
+    @Override
+    public List<String> getPreferredEnrichment() {
+        return List.of("gnawing_rock");
+    }
+
     // --- General ------------------------------------------------------------------------------------------
     @Override
     public int getLimitPerChunk() {
         return 8;
     }
 
-    // --- General ------------------------------------------------------------------------------------------
+    // --- Genome ------------------------------------------------------------------------------------------
     public String calculateGenome() {
         return geneticsContext.setRandomGenes(false);
     }
