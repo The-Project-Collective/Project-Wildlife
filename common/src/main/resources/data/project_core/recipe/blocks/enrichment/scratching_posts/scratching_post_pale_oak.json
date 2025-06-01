@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "scratching_post",
+  "key": {
+    "L": "minecraft:pale_oak_log",
+    "F": "minecraft:pale_oak_fence",
+    "W": "minecraft:white_wool"
+  },
+  "pattern": [
+    "WFW",
+    "WFW",
+    " L "
+  ],
+  "result": {
+    "count": 1,
+    "id": "project_core:scratching_post_pale_oak"
+  }
+}
