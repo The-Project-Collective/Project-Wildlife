@@ -1,10 +1,11 @@
-package com.collective.projectwildlife.util.builders.forge;
+package com.collective.projectwildlife.util.builders.neoforge;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 
 public final class BlockEntityTypeBuilderImpl {
+
     private BlockEntityTypeBuilderImpl() {
     }
 

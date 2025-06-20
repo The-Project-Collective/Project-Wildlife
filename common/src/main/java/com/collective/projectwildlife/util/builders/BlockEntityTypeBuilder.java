@@ -6,6 +6,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 
 public final class BlockEntityTypeBuilder {
+
     private BlockEntityTypeBuilder() {
     }
 
