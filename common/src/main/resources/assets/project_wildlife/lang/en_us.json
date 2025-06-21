@@ -44,8 +44,11 @@
 
 
 
-  "tag.item.project_wildlife.insects": "Insects Tag",
+  "tag.item.project_wildlife.insects": "Insects",
 
-  "tag.item.project_wildlife.american_red_fox_foods": "American Red Fox Foods"
+  "tag.item.project_wildlife.american_red_fox_foods": "American Red Fox Foods",
+
+  "tag.item.project_wildlife.american_red_fox_enrichment": "American Red Fox Allowed Enrichment"
+
 
 }

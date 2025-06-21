@@ -128,7 +128,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         this.goalSelector.add(0, new CoreAnimalMateCheckGoal(this));
         this.goalSelector.add(0, new CoreAnimalGiveBirthGoal(this, 2.0, 24));
         this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(1, new CoreAnimalEatGoal(this, 1.0, 24));
+        this.goalSelector.add(1, new TestCoreAnimalEatGoal(this, 1.0, 24, 4));
         this.goalSelector.add(1, new CoreAnimalPlayWithEnrichmentGoal(this, 1.0, 24));
         this.goalSelector.add(1, new CoreAnimalCheckGroupGoal(this));
         this.goalSelector.add(1, new CoreAnimalLeaderShrinkGroupGoal(this));
@@ -936,8 +936,8 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     }
 
     @Override
-    public List<String> getPreferredEnrichment() {
-        return List.of("gnawing_rock");
+    public TagKey<Block> getAllowedEnrichment() {
+        return WildlifeTags.AMERICAN_RED_FOX_ENRICHMENT;
     }
 
     // --- General ------------------------------------------------------------------------------------------
