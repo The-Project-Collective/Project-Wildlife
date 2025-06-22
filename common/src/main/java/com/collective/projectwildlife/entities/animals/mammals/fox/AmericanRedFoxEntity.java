@@ -187,7 +187,8 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         ItemStack itemStack = player.getMainHandStack();
         if (hand == Hand.MAIN_HAND && !player.getWorld().isClient()) {
             if (itemStack.getItem().equals(Items.IRON_NUGGET)) {
-                this.setHunger(0);
+                this.setEnrichment(0);
+                this.setEnrichmentCooldown(0);
             }
         }
         return super.interactMob(player, hand);
