@@ -23,12 +23,16 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.LocalDifficulty;
@@ -128,7 +132,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         this.goalSelector.add(0, new CoreAnimalMateCheckGoal(this));
         this.goalSelector.add(0, new CoreAnimalGiveBirthGoal(this, 2.0, 24));
         this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(1, new TestCoreAnimalEatGoal(this, 1.0, 24, 4));
+        this.goalSelector.add(1, new CoreAnimalEatGoal(this, 1.0, 24, 4));
         this.goalSelector.add(1, new CoreAnimalPlayWithEnrichmentGoal(this, 1.0, 24));
         this.goalSelector.add(1, new CoreAnimalCheckGroupGoal(this));
         this.goalSelector.add(1, new CoreAnimalLeaderShrinkGroupGoal(this));
@@ -178,7 +182,16 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         }
     }
 
-
+    @Override
+    public ActionResult interactMob(PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getMainHandStack();
+        if (hand == Hand.MAIN_HAND && !player.getWorld().isClient()) {
+            if (itemStack.getItem().equals(Items.IRON_NUGGET)) {
+                this.setHunger(0);
+            }
+        }
+        return super.interactMob(player, hand);
+    }
 
     // === GENETICS =======================================================================================================================================================================
 
