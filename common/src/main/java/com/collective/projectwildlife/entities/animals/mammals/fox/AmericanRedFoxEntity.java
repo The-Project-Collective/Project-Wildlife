@@ -1225,9 +1225,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                     this.entity.setPitch(this.changeAngle(this.entity.getPitch(), pitch, this.maxPitchChange));
                 });
             } else {
-                if (!this.entity.isResting() && !this.entity.isSleeping()) {
-                    this.entity.headYaw = this.changeAngle(this.entity.headYaw, this.entity.bodyYaw, 10.0F);
-                }
+                this.entity.headYaw = this.changeAngle(this.entity.headYaw, this.entity.bodyYaw, 10.0F);
             }
 
             this.clampHeadYaw();
