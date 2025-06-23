@@ -60,9 +60,12 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
 
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.american_red.idle");
     public static final RawAnimation RUN = RawAnimation.begin().thenLoop("animation.american_red.run");
-    
+    public static final RawAnimation SLEEP = RawAnimation.begin().thenLoop("animation.american_red.sleeping");
+    public static final RawAnimation REST = RawAnimation.begin().thenLoop("animation.american_red.resting");
+
     public AmericanRedFoxEntity(EntityType<? extends AnimalEntity> entityType, World world) {
-        super(entityType, world, true, true, true, true, true, true, true, true, true);
+        super(entityType, world, true, true, true, true, true,
+                true, true, true, true, true, true);
     }
 
     // === MAIN METHODS =======================================================================================================================================================================
@@ -92,27 +95,13 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
             if (state.isMoving()) {
                 anim = RUN;
                 state.setControllerSpeed(8f);
-            }
-            /*if (state.isMoving()) {
-                if (this.getIsSprinting()) {
-                    anim = RUN;
-                    state.setControllerSpeed(8);
-                } else {
-                    anim = WALK;
-                }
-            } else if (this.shouldSleep() && this.canSleep() && !this.isResting() && this.isGoingToSleep() && !this.isSleeping() && this.isAtHome()) {
-                anim = GO_TO_SLEEP;
-                state.setControllerSpeed(0.85f);
-            } else if (this.shouldSleep() && this.canSleep() && this.isSleeping()) {
+            } else if (this.isSleeping()) {
                 anim = SLEEP;
-                state.setControllerSpeed(0.8f);
-            } else if (this.isSleeping() && !this.shouldSleep()) {
-                anim = WAKE_UP;
                 state.setControllerSpeed(0.8f);
             } else if (this.isResting()) {
                 anim = REST;
                 state.setControllerSpeed(0.85f);
-            }*/
+            }
             return state.setAndContinue(anim);
         });
     }
@@ -1088,6 +1077,13 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         }
         return 20;
     }
+
+    // --- Sleeping ------------------------------------------------------------------------------------------
+    @Override
+    public List<String> getSleepSchedules() {
+        return List.of("nocturnal", "crepuscular");
+    }
+
 
     // --- Size ------------------------------------------------------------------------------------------
     @Override
