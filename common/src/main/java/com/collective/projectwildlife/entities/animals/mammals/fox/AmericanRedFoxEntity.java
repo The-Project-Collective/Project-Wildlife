@@ -13,6 +13,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.control.LookControl;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -35,6 +36,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -66,6 +69,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     public AmericanRedFoxEntity(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world, true, true, true, true, true,
                 true, true, true, true, true, true);
+        this.lookControl = new AmericanRedFoxLookControl(this);
     }
 
     // === MAIN METHODS =======================================================================================================================================================================
@@ -89,7 +93,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     }
 
     public <T extends Entity & GeoAnimatable> AnimationController<T> zooWalkRunIdleRestSleepController(T foxEntity) {
-        return new AnimationController<>(foxEntity, "walk/run/idle/rest/sleep", 0, (state) -> {
+        return new AnimationController<>(foxEntity, "walk/run/idle/rest/sleep", 10, (state) -> {
             state.setControllerSpeed(1f);
             RawAnimation anim = IDLE;
             if (state.isMoving()) {
@@ -135,9 +139,9 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         this.goalSelector.add(3, new CoreAnimalBreedGoal(this, 2.0));
         this.goalSelector.add(4, new CoreAnimalAvoidEnemyPackGoal<>(this, AmericanRedFoxEntity.class, 24.0F, 1.1, 1.35));
         this.goalSelector.add(5, new MeleeAttackGoal(this, 1.0, true));
-        this.goalSelector.add(8, new WanderAroundFarGoal(this, 1.0));
-        this.goalSelector.add(10, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(10, new LookAroundGoal(this));
+        this.goalSelector.add(8, new TestCoreAnimalWanderFarGoal(this, 1.0));
+        this.goalSelector.add(10, new TestCoreAnimalLookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(10, new TestCoreAnimalLookAroundGoal(this));
         this.targetSelector.add(3, (new RevengeGoal(this)).setGroupRevenge());
         this.targetSelector.add(4, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));
         this.targetSelector.add(8, new UniversalAngerGoal<>(this, true));
@@ -154,6 +158,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         if (this.getGenome().isEmpty()) {
             this.setGenome(this.calculateGenome());
         }
+        this.setTirednessTicks(random.nextInt(600) + 2400);
         this.setAttributes(0);
         this.setPack(List.of(this.getUuidAsString()));
         this.calculateDimensions();
@@ -1164,6 +1169,114 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     @Override
     protected float getSoundVolume() {
         return 1.0f;
+    }
+
+    private static class AmericanRedFoxLookControl extends LookControl {
+
+        protected final AmericanRedFoxEntity entity;
+        protected float maxYawChange;
+        protected float maxPitchChange;
+        protected int lookAtTimer;
+        protected double x;
+        protected double y;
+        protected double z;
+
+        public AmericanRedFoxLookControl(AmericanRedFoxEntity entity) {
+            super(entity);
+            this.entity = entity;
+        }
+
+        public void lookAt(Vec3d direction) {
+            this.lookAt(direction.x, direction.y, direction.z);
+        }
+
+        public void lookAt(Entity entity) {
+            this.lookAt(entity.getX(), getLookingHeightFor(entity), entity.getZ());
+        }
+
+        public void lookAt(Entity entity, float maxYawChange, float maxPitchChange) {
+            this.lookAt(entity.getX(), getLookingHeightFor(entity), entity.getZ(), maxYawChange, maxPitchChange);
+        }
+
+        public void lookAt(double x, double y, double z) {
+            this.lookAt(x, y, z, (float)this.entity.getMaxLookYawChange(), (float)this.entity.getMaxLookPitchChange());
+        }
+
+        public void lookAt(double x, double y, double z, float maxYawChange, float maxPitchChange) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.maxYawChange = maxYawChange;
+            this.maxPitchChange = maxPitchChange;
+            this.lookAtTimer = 2;
+        }
+
+        public void tick() {
+            if (this.shouldStayHorizontal()) {
+                this.entity.setPitch(0.0F);
+            }
+
+            if (this.lookAtTimer > 0) {
+                --this.lookAtTimer;
+                this.getTargetYaw().ifPresent((yaw) -> {
+                    this.entity.headYaw = this.changeAngle(this.entity.headYaw, yaw, this.maxYawChange);
+                });
+                this.getTargetPitch().ifPresent((pitch) -> {
+                    this.entity.setPitch(this.changeAngle(this.entity.getPitch(), pitch, this.maxPitchChange));
+                });
+            } else {
+                if (!this.entity.isResting() && !this.entity.isSleeping()) {
+                    this.entity.headYaw = this.changeAngle(this.entity.headYaw, this.entity.bodyYaw, 10.0F);
+                }
+            }
+
+            this.clampHeadYaw();
+        }
+
+        protected void clampHeadYaw() {
+            if (!this.entity.getNavigation().isIdle()) {
+                this.entity.headYaw = MathHelper.clampAngle(this.entity.headYaw, this.entity.bodyYaw, (float)this.entity.getMaxHeadRotation());
+            }
+
+        }
+
+        protected boolean shouldStayHorizontal() {
+            return true;
+        }
+
+        public boolean isLookingAtSpecificPosition() {
+            return this.lookAtTimer > 0;
+        }
+
+        public double getLookX() {
+            return this.x;
+        }
+
+        public double getLookY() {
+            return this.y;
+        }
+
+        public double getLookZ() {
+            return this.z;
+        }
+
+        protected Optional<Float> getTargetPitch() {
+            double d = this.x - this.entity.getX();
+            double e = this.y - this.entity.getEyeY();
+            double f = this.z - this.entity.getZ();
+            double g = Math.sqrt(d * d + f * f);
+            return !(Math.abs(e) > 9.999999747378752E-6) && !(Math.abs(g) > 9.999999747378752E-6) ? Optional.empty() : Optional.of((float)(-(MathHelper.atan2(e, g) * 57.2957763671875)));
+        }
+
+        protected Optional<Float> getTargetYaw() {
+            double d = this.x - this.entity.getX();
+            double e = this.z - this.entity.getZ();
+            return !(Math.abs(e) > 9.999999747378752E-6) && !(Math.abs(d) > 9.999999747378752E-6) ? Optional.empty() : Optional.of((float)(MathHelper.atan2(e, d) * 57.2957763671875) - 90.0F);
+        }
+
+        private static double getLookingHeightFor(Entity entity) {
+            return entity instanceof LivingEntity ? entity.getEyeY() : (entity.getBoundingBox().minY + entity.getBoundingBox().maxY) / 2.0;
+        }
     }
 
 }

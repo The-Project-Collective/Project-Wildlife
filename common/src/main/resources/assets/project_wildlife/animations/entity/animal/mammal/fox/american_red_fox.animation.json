@@ -955,7 +955,7 @@
 			}
 		},
 		"animation.american_red.go_to_sleep": {
-			"loop": "hold_on_last_frame",
+			"loop": true,
 			"animation_length": 4.25,
 			"bones": {
 				"fox": {
@@ -3296,7 +3296,7 @@
 			}
 		},
 		"animation.american_red.wake_up": {
-			"loop": "hold_on_last_frame",
+			"loop": true,
 			"animation_length": 4,
 			"bones": {
 				"fox": {
