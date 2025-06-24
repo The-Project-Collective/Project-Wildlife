@@ -1,5 +1,6 @@
 package com.collective.projectwildlife.fabric;
 
+import com.collective.projectwildlife.fabric.worldgen.WildlifeEntitySpawnsFabric;
 import net.fabricmc.api.ModInitializer;
 
 import com.collective.projectwildlife.ProjectWildlife;
@@ -13,5 +14,6 @@ public final class ProjectWildlifeFabric implements ModInitializer {
 
         // Run our common setup.
         ProjectWildlife.init();
+        WildlifeEntitySpawnsFabric.addSpawns();
     }
 }

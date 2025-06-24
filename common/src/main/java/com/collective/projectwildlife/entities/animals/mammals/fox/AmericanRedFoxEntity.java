@@ -92,8 +92,9 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         return RenderUtil.getCurrentTick();
     }
 
+    // For some reason, setting the transitionTickTime to anything above 0 causes random T-posing; needs investigation.
     public <T extends Entity & GeoAnimatable> AnimationController<T> zooWalkRunIdleRestSleepController(T foxEntity) {
-        return new AnimationController<>(foxEntity, "walk/run/idle/rest/sleep", 10, (state) -> {
+        return new AnimationController<>(foxEntity, "walk/run/idle/rest/sleep", 0, (state) -> {
             state.setControllerSpeed(1f);
             RawAnimation anim = IDLE;
             if (state.isMoving()) {
@@ -156,7 +157,19 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         this.setGender(random.nextInt(2));
         this.setHunger(this.getMaxFood());
         if (this.getGenome().isEmpty()) {
-            this.setGenome(this.calculateGenome());
+            this.setGenome(this.calculateWildGenome());
+            if (random.nextInt(20) == 0) {
+                StringBuilder genome = new StringBuilder(this.getGenome());
+                genome.setCharAt(2, 'b');
+                genome.setCharAt(18, 'b');
+                this.setGenome(genome.toString());
+            }
+            if (random.nextInt(50) == 0) {
+                StringBuilder genome = new StringBuilder(this.getGenome());
+                genome.setCharAt(3, 'c');
+                genome.setCharAt(19, 'c');
+                this.setGenome(genome.toString());
+            }
         }
         this.setTirednessTicks(random.nextInt(600) + 2400);
         this.setAttributes(0);
@@ -194,7 +207,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     public record Red() implements GeneticContext.Gene, CoreTextureContext.BaseGeneTexture {
         public String name() { return "Red"; }
         public List<String> alleles() { return List.of("A", "a"); }
-        public List<String> wildAlleles() { return List.of("A", "a"); }
+        public List<String> wildAlleles() { return List.of("A"); }
         public boolean dominant() { return true; }
         public boolean partialDominant() { return false; }
         public boolean homozygousLethal() { return false; }
@@ -222,7 +235,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     public record Silver() implements GeneticContext.Gene, CoreTextureContext.BaseGeneTexture {
         public String name() { return "Silver"; }
         public List<String> alleles() { return List.of("B", "b"); }
-        public List<String> wildAlleles() { return List.of("B", "b"); }
+        public List<String> wildAlleles() { return List.of("B"); }
         public boolean dominant() { return false; }
         public boolean partialDominant() { return false; }
         public boolean homozygousLethal() { return false; }
@@ -246,7 +259,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     public record Albino() implements GeneticContext.Gene, CoreTextureContext.BaseGeneTexture {
         public String name() { return "Albino"; }
         public List<String> alleles() { return List.of("C", "c"); }
-        public List<String> wildAlleles() { return List.of("C", "c"); }
+        public List<String> wildAlleles() { return List.of("C"); }
         public boolean dominant() { return false; }
         public boolean partialDominant() { return true; }
         public boolean homozygousLethal() { return false; }
@@ -267,7 +280,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     public record Pastel() implements GeneticContext.Gene, CoreTextureContext.BaseGeneTexture {
         public String name() { return "Pastel"; }
         public List<String> alleles() { return List.of( "E", "e"); }
-        public List<String> wildAlleles() { return List.of("e"); }
+        public List<String> wildAlleles() { return List.of("E"); }
         public boolean dominant() { return false; }
         public boolean partialDominant() { return false; }
         public boolean homozygousLethal() { return false; }
