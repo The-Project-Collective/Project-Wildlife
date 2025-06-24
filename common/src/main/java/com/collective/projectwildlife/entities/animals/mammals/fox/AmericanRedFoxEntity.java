@@ -1151,6 +1151,13 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
 
     // --- Sounds ------------------------------------------------------------------------------------------
     @Override
+    public void playAmbientSound() {
+        if (!this.isSleeping()) {
+            super.playAmbientSound();
+        }
+    }
+
+    @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(SoundEvents.ENTITY_WOLF_STEP, 0.15F, 1.0F);
     }
@@ -1161,7 +1168,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
             return SoundEvents.ENTITY_FOX_AGGRO;
         }
         if (!this.getWorld().isDay() && this.random.nextFloat() < 0.1F) {
-            List<PlayerEntity> list = this.getWorld().getEntitiesByClass(PlayerEntity.class, this.getBoundingBox().expand(16.0, 16.0, 16.0), EntityPredicates.EXCEPT_SPECTATOR);
+            List<PlayerEntity> list = this.getWorld().getEntitiesByClass(PlayerEntity.class, this.getBoundingBox().expand(16.0, 16.0, 16.0), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR);
             if (list.isEmpty()) {
                 return SoundEvents.ENTITY_FOX_SCREECH;
             }
