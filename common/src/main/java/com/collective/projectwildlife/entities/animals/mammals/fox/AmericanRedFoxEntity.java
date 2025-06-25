@@ -782,23 +782,23 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
                     }
                 // -- Patterns --
                     // White Mark
-                    if (whiteSeriesAlleles.equals("Ww") || whiteSeriesAlleles.equals("WM")) {
+                    if (whiteSeriesAlleles.equals("Ww") || whiteSeriesAlleles.equals("WM") || whiteSeriesAlleles.equals("MW")) {
                         white_mark = true;
-                        if (whiteSeriesAlleles.equals("WM")) {
+                        if (whiteSeriesAlleles.equals("WM") || whiteSeriesAlleles.equals("MW")) {
                             marble = true;
                         }
                     }
                     // Platinum
-                    if (whiteSeriesAlleles.equals("Qw") || whiteSeriesAlleles.equals("QM")) {
+                    if (whiteSeriesAlleles.equals("Qw") || whiteSeriesAlleles.equals("QM") || whiteSeriesAlleles.equals("MQ")) {
                         platinum = true;
-                        if (whiteSeriesAlleles.equals("QM")) {
+                        if (whiteSeriesAlleles.equals("QM") || whiteSeriesAlleles.equals("MQ")) {
                             marble = true;
                         }
                     }
                     // Georgian White
-                    if (whiteSeriesAlleles.equals("Ow") || whiteSeriesAlleles.equals("OM")) {
+                    if (whiteSeriesAlleles.equals("Ow") || whiteSeriesAlleles.equals("OM") || whiteSeriesAlleles.equals("MO")) {
                         georgian_white = true;
-                        if (whiteSeriesAlleles.equals("OM")) {
+                        if (whiteSeriesAlleles.equals("OM") || whiteSeriesAlleles.equals("MO")) {
                             marble = true;
                         }
                     }
