@@ -140,9 +140,9 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         this.goalSelector.add(3, new CoreAnimalBreedGoal(this, 2.0));
         this.goalSelector.add(4, new CoreAnimalAvoidEnemyPackGoal<>(this, AmericanRedFoxEntity.class, 24.0F, 1.1, 1.35));
         this.goalSelector.add(5, new MeleeAttackGoal(this, 1.0, true));
-        this.goalSelector.add(8, new TestCoreAnimalWanderFarGoal(this, 1.0));
-        this.goalSelector.add(10, new TestCoreAnimalLookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(10, new TestCoreAnimalLookAroundGoal(this));
+        this.goalSelector.add(8, new CoreAnimalWanderFarGoal(this, 1.0));
+        this.goalSelector.add(10, new CoreAnimalLookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(10, new CoreAnimalLookAroundGoal(this));
         this.targetSelector.add(3, (new RevengeGoal(this)).setGroupRevenge());
         this.targetSelector.add(4, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));
         this.targetSelector.add(8, new UniversalAngerGoal<>(this, true));
