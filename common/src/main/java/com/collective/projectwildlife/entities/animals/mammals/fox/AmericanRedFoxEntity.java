@@ -157,18 +157,22 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         this.setGender(random.nextInt(2));
         this.setHunger(this.getMaxFood());
         if (this.getGenome().isEmpty()) {
-            this.setGenome(this.calculateWildGenome());
-            if (random.nextInt(20) == 0) {
-                StringBuilder genome = new StringBuilder(this.getGenome());
-                genome.setCharAt(2, 'b');
-                genome.setCharAt(18, 'b');
-                this.setGenome(genome.toString());
-            }
-            if (random.nextInt(50) == 0) {
-                StringBuilder genome = new StringBuilder(this.getGenome());
-                genome.setCharAt(3, 'c');
-                genome.setCharAt(19, 'c');
-                this.setGenome(genome.toString());
+            if (!spawnReason.equals(SpawnReason.SPAWN_ITEM_USE) && !spawnReason.equals(SpawnReason.SPAWNER)) {
+                this.setGenome(this.calculateWildGenome());
+                if (random.nextInt(20) == 0) {
+                    StringBuilder genome = new StringBuilder(this.getGenome());
+                    genome.setCharAt(2, 'b');
+                    genome.setCharAt(18, 'b');
+                    this.setGenome(genome.toString());
+                }
+                if (random.nextInt(50) == 0) {
+                    StringBuilder genome = new StringBuilder(this.getGenome());
+                    genome.setCharAt(3, 'c');
+                    genome.setCharAt(19, 'c');
+                    this.setGenome(genome.toString());
+                }
+            } else {
+                this.setGenome(this.calculateGenome());
             }
         }
         this.setTirednessTicks(random.nextInt(600) + 2400);
