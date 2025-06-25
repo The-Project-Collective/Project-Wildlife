@@ -4,7 +4,6 @@ import com.collective.projectwildlife.entities.WildlifeEntities;
 import com.collective.projectwildlife.renderers.entities.animals.mammals.fox.AmericanRedFoxRenderer;
 import com.collective.projectwildlife.screens.handlers.WildlifeScreenHandlers;
 import com.collective.projectwildlife.screens.insects.*;
-import com.collective.projectwildlife.screens.machines.FeederScreen;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -42,10 +41,6 @@ public final class ProjectWildlifeFabricClient implements ClientModInitializer {
             }
             if (WildlifeScreenHandlers.TERMITE_NEST_SCREEN_HANDLER.isPresent()) {
                 MenuRegistry.registerScreenFactory(WildlifeScreenHandlers.TERMITE_NEST_SCREEN_HANDLER.get(), TermiteNestScreen::new);
-            }
-
-            if (WildlifeScreenHandlers.FEEDER_SCREEN_HANDLER.isPresent()) {
-                MenuRegistry.registerScreenFactory(WildlifeScreenHandlers.FEEDER_SCREEN_HANDLER.get(), FeederScreen::new);
             }
         }
     }

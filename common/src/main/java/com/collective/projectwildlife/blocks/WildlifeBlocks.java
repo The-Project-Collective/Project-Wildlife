@@ -3,7 +3,6 @@ package com.collective.projectwildlife.blocks;
 import com.collective.projectcore.groups.CoreTabGroups;
 import com.collective.projectwildlife.ProjectWildlife;
 import com.collective.projectwildlife.blocks.insects.*;
-import com.collective.projectwildlife.blocks.machines.FeederBlock;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.AbstractBlock;
@@ -22,11 +21,6 @@ public class WildlifeBlocks {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ProjectWildlife.MOD_ID, RegistryKeys.BLOCK);
     public static final DeferredRegister<Item> BLOCK_ITEMS = DeferredRegister.create(ProjectWildlife.MOD_ID, RegistryKeys.ITEM);
-
-    // === UTILITY / MACHINES ===
-
-    public static final RegistrySupplier<Block> FEEDER = registerBlock("feeder", () -> new FeederBlock(AbstractBlock.Settings.copy(Blocks.STONE).mapColor(MapColor.BROWN).requiresTool().registryKey(getBlockRegistryKey("feeder"))));
-
 
 
     // === WORLD GEN ===

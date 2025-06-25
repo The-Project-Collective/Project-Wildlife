@@ -5,7 +5,6 @@ import com.collective.projectwildlife.entities.WildlifeEntities;
 import com.collective.projectwildlife.renderers.entities.animals.mammals.fox.AmericanRedFoxRenderer;
 import com.collective.projectwildlife.screens.handlers.WildlifeScreenHandlers;
 import com.collective.projectwildlife.screens.insects.*;
-import com.collective.projectwildlife.screens.machines.FeederScreen;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -38,9 +37,6 @@ public class ProjectWildlifeNeoForgeClient {
         event.register(WildlifeScreenHandlers.MEALWORM_NEST_SCREEN_HANDLER.get(), MealwormNestScreen::new);
         event.register(WildlifeScreenHandlers.MOLE_CRICKET_NEST_SCREEN_HANDLER.get(), MoleCricketNestScreen::new);
         event.register(WildlifeScreenHandlers.TERMITE_NEST_SCREEN_HANDLER.get(), TermiteNestScreen::new);
-
-        event.register(WildlifeScreenHandlers.FEEDER_SCREEN_HANDLER.get(), FeederScreen::new);
-
     }
 
 }
