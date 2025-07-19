@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IPI",
+    "P P",
+    "IPI"
+  ],
+  "key": {
+    "I": "minecraft:diamond",
+    "P": "#minecraft:planks"
+  },
+  "result": {
+    "id": "project_core:large_box_trap",
+    "count": 1
+  }
+}
