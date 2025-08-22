@@ -50,7 +50,7 @@ public class WildlifeBlocks {
 
     @SuppressWarnings("UnstableApiUsage")
     private static <T extends Block> void registerBlockItem(String name, RegistrySupplier<T> block) {
-        BLOCK_ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Settings().arch$tab(CoreTabGroups.CORE_BLOCKS).registryKey(getItemRegistryKey(name)).useBlockPrefixedTranslationKey()));
+        BLOCK_ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Settings().arch$tab(CoreTabGroups.PROJECT_BLOCKS).registryKey(getItemRegistryKey(name)).useBlockPrefixedTranslationKey()));
     }
 
     private static RegistryKey<Block> getBlockRegistryKey(String block_id) {

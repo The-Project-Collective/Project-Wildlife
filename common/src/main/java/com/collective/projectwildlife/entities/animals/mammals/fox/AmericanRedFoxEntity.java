@@ -32,6 +32,7 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -305,7 +306,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     }
 
     public record FireFactor() implements GeneticContext.Gene, CoreTextureContext.BaseGeneTexture {
-        public String name() { return "FireFactor"; }
+        public String name() { return "Fire Factor"; }
         public List<String> alleles() { return List.of("F", "f"); }
         public List<String> wildAlleles() { return List.of("F"); }
         public boolean dominant() { return false; }
@@ -368,7 +369,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     }
 
     public record MansfieldPearl() implements GeneticContext.Gene, CoreTextureContext.BaseGeneTexture {
-        public String name() { return "MansfieldPearl"; }
+        public String name() { return "Mansfield Pearl"; }
         public List<String> alleles() { return List.of("S", "s"); }
         public List<String> wildAlleles() { return List.of("S"); }
         public boolean dominant() { return false; }
@@ -435,7 +436,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     }
 
     public record WhiteSeries() implements GeneticContext.Gene, CoreTextureContext.BaseGeneTexture {
-        public String name() { return "WhiteSeries"; }
+        public String name() { return "White Series"; }
         public List<String> alleles() { return List.of("W", "Q", "O", "M", "w"); }
         public List<String> wildAlleles() { return List.of("w"); }
         public boolean dominant() { return false; }
@@ -965,10 +966,35 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         return WildlifeTags.AMERICAN_RED_FOX_ENRICHMENT;
     }
 
+    @Override
+    public TagKey<EntityType<?>> getAllowedEnrichmentEntities() {
+        return WildlifeTags.AMERICAN_RED_FOX_ENRICHMENT_ENTITIES;
+    }
+
     // --- General ------------------------------------------------------------------------------------------
     @Override
     public int getLimitPerChunk() {
         return 8;
+    }
+
+    @Override
+    public List<Text> getIRLInfo() {
+        List<Text> lineList = new ArrayList<>();
+        int lineNumber = 6;
+        for (int i = 0; i < lineNumber; i++) {
+            lineList.add(Text.translatable("screen.project_wildlife.creature_compendium.irl_info.american_red_fox."+i));
+        }
+        return lineList;
+    }
+
+    @Override
+    public Text getConservationStatus() {
+        return Text.translatable("screen.project_core.creature_compendium.conservation_status.lc");
+    }
+
+    @Override
+    public int getCompendiumDisplaySize() {
+        return 50;
     }
 
     // --- Genome ------------------------------------------------------------------------------------------
@@ -1032,6 +1058,20 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
         }
     }
 
+    @Override
+    public List<Text> getCompendiumGenes() {
+        List<Text> list = new ArrayList<>();
+        for (int i = 0; i < geneticsContext.genes().size() - 4; i++) {
+            list.add(Text.literal(geneticsContext.genes().get(i).name()+": "+geneticsContext.getAlleles(this.getGenome(), i)));
+        }
+        return list;
+    }
+
+    @Override
+    public String evaluateStatGenetics(int i) {
+        return geneticsContext.evaluateStat(this.getGenome(), i).getString();
+    }
+
     // --- Home Pos ------------------------------------------------------------------------------------------
     @Override
     public boolean isMigratory() {
@@ -1057,6 +1097,18 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     @Override
     public TagKey<Item> getSpecificDiet() {
         return WildlifeTags.AMERICAN_RED_FOX_FOODS;
+    }
+
+    @Override
+    public Text getScheduleName() {
+        return Text.of(Text.translatable("screen.project_core.creature_compendium.schedule.nocturnal").getString()+"-"+
+                Text.translatable("screen.project_core.creature_compendium.schedule.crepuscular").getString());
+    }
+
+    // --- Names ------------------------------------------------------------------------------------------
+    @Override
+    public String getScientificName() {
+        return "Vulpes vulpes fulva";
     }
 
     // --- Leash ------------------------------------------------------------------------------------------

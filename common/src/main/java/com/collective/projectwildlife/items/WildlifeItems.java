@@ -21,11 +21,11 @@ public class WildlifeItems {
     // === FOOD ITEMS =======================================================================================================================================================================
 
     // --- Insects ------------------------------------------------------------------------------------------
-    public static final RegistrySupplier<Item> COCKROACH = ITEMS.register("cockroach", () -> new Item(new Item.Settings().maxCount(64).arch$tab(CoreTabGroups.CORE_ITEMS).registryKey(getItemRegistryKey("cockroach"))));
-    public static final RegistrySupplier<Item> GRUB = ITEMS.register("grub", () -> new Item(new Item.Settings().maxCount(64).arch$tab(CoreTabGroups.CORE_ITEMS).registryKey(getItemRegistryKey("grub"))));
-    public static final RegistrySupplier<Item> MEALWORM = ITEMS.register("mealworm", () -> new Item(new Item.Settings().maxCount(64).arch$tab(CoreTabGroups.CORE_ITEMS).registryKey(getItemRegistryKey("mealworm"))));
-    public static final RegistrySupplier<Item> MOLE_CRICKET = ITEMS.register("mole_cricket", () -> new Item(new Item.Settings().maxCount(64).arch$tab(CoreTabGroups.CORE_ITEMS).registryKey(getItemRegistryKey("mole_cricket"))));
-    public static final RegistrySupplier<Item> TERMITE = ITEMS.register("termite", () -> new Item(new Item.Settings().maxCount(64).arch$tab(CoreTabGroups.CORE_ITEMS).registryKey(getItemRegistryKey("termite"))));
+    public static final RegistrySupplier<Item> COCKROACH = ITEMS.register("cockroach", () -> new Item(new Item.Settings().maxCount(64).arch$tab(CoreTabGroups.PROJECT_ITEMS).registryKey(getItemRegistryKey("cockroach"))));
+    public static final RegistrySupplier<Item> GRUB = ITEMS.register("grub", () -> new Item(new Item.Settings().maxCount(64).arch$tab(CoreTabGroups.PROJECT_ITEMS).registryKey(getItemRegistryKey("grub"))));
+    public static final RegistrySupplier<Item> MEALWORM = ITEMS.register("mealworm", () -> new Item(new Item.Settings().maxCount(64).arch$tab(CoreTabGroups.PROJECT_ITEMS).registryKey(getItemRegistryKey("mealworm"))));
+    public static final RegistrySupplier<Item> MOLE_CRICKET = ITEMS.register("mole_cricket", () -> new Item(new Item.Settings().maxCount(64).arch$tab(CoreTabGroups.PROJECT_ITEMS).registryKey(getItemRegistryKey("mole_cricket"))));
+    public static final RegistrySupplier<Item> TERMITE = ITEMS.register("termite", () -> new Item(new Item.Settings().maxCount(64).arch$tab(CoreTabGroups.PROJECT_ITEMS).registryKey(getItemRegistryKey("termite"))));
 
 
 
