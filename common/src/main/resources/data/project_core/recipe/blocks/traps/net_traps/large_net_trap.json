@@ -7,7 +7,7 @@
   ],
   "key": {
     "I": "minecraft:diamond",
-    "P": "#minecraft:string"
+    "P": "minecraft:string"
   },
   "result": {
     "id": "project_core:large_net_trap",
