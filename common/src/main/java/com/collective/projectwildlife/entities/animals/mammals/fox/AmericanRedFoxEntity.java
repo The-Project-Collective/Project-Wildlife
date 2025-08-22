@@ -980,7 +980,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
     @Override
     public List<Text> getIRLInfo() {
         List<Text> lineList = new ArrayList<>();
-        int lineNumber = 6;
+        int lineNumber = 18;
         for (int i = 0; i < lineNumber; i++) {
             lineList.add(Text.translatable("screen.project_wildlife.creature_compendium.irl_info.american_red_fox."+i));
         }
@@ -994,7 +994,7 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
 
     @Override
     public int getCompendiumDisplaySize() {
-        return 50;
+        return 80;
     }
 
     // --- Genome ------------------------------------------------------------------------------------------

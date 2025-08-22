@@ -39,19 +39,25 @@
 
 
 
-  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.0": "The American Red Fox is a medium-sized,",
-  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.1": "quadrupedal, omnivorous mammal native",
-  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.2": "to North America. It is a subspecies",
-  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.3": "of the European Red Fox. It inhabits",
-  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.4": "a wide range of habitats, from dry",
-  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.5": "brushlands to snowy forests, but are",
-  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.6": "more common in temperate forests and",
-  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.7": "grasslands. It is a somewhat solitary ",
-  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.8": "animal, living either alone until mating,",
-  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.9": "or in small family groups made of a",
-  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.10": "leading mated pair and their offspring,",
-  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.11": "and usually the female is the leader of",
-  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.12": "the group.",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.0": "The American Red Fox is a",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.1": "medium-sized, quadrupedal",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.2": "omnivorous mammal native to",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.3": "North America. It is a",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.4": "subspecies of the European",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.5": "Red Fox. It inhabits a wide",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.6": "range of habitats, from dry",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.7": "brushlands to snowy forests,",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.8": "but are more common in",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.9": "temperate forests and",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.10": "grasslands. It is a somewhat",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.11": "solitary animal, living",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.12": "either alone until mating, or",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.13": "in small family groups made",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.14": "of a leading mated pair and",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.15": "their offspring, and usually",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.16": "the female is the leader of",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.17": "the group.",
+
 
 
   "group.project_wildlife.wildlife_animals": "Wildlife Animals",
