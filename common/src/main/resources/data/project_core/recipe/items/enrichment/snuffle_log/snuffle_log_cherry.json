@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "snuffle_log",
+  "ingredients": [
+    "minecraft:cherry_log",
+    "#project_core:diets/general/all_foods"
+  ],
+  "result": {
+    "count": 1,
+    "id": "project_core:snuffle_log_cherry"
+  }
+}

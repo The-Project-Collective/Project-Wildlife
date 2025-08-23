@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "scratching_post",
+  "key": {
+    "L": "minecraft:birch_log",
+    "F": "minecraft:birch_fence",
+    "W": "minecraft:white_wool"
+  },
+  "pattern": [
+    "WFW",
+    "WFW",
+    " L "
+  ],
+  "result": {
+    "count": 1,
+    "id": "project_core:scratching_post_birch"
+  }
+}

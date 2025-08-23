@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "toy_ball",
+  "ingredients": [
+    "minecraft:lime_wool",
+    "minecraft:slime_ball"
+  ],
+  "result": {
+    "count": 1,
+    "id": "project_core:toy_ball_lime"
+  }
+}

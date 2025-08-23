@@ -5,9 +5,9 @@
   "item.project_wildlife.mole_cricket": "Mole Cricket",
   "item.project_wildlife.termite": "Termite",
 
+  "item.project_wildlife.american_red_fox_spawn_egg": "American Red Fox Spawn Egg",
 
 
-  "block.project_wildlife.feeder": "Feeder",
 
   "block.project_wildlife.cockroach_nest": "Cockroach Nest",
   "block.project_wildlife.grub_nest": "Grub Nest",
@@ -23,7 +23,13 @@
 
 
 
-  "screenhandler.project_wildlife.feeder": "Feeder",
+  "entity.project_wildlife.american_red_fox": "American Red Fox",
+
+
+
+  "scientific.project_wildlife.american_red_fox": "Vulpes vulpes fulva",
+
+
 
   "screenhandler.project_wildlife.cockroach_nest": "Cockroach Nest",
   "screenhandler.project_wildlife.grub_nest": "Grub Nest",
@@ -33,6 +39,36 @@
 
 
 
-  "tag.item.project_wildlife.insects": "Insects Tag"
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.0": "The American Red Fox is a",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.1": "medium-sized, quadrupedal",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.2": "omnivorous mammal native to",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.3": "North America. It is a",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.4": "subspecies of the European",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.5": "Red Fox. It inhabits a wide",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.6": "range of habitats, from dry",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.7": "brushlands to snowy forests,",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.8": "but are more common in",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.9": "temperate forests and",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.10": "grasslands. It is a somewhat",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.11": "solitary animal, living",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.12": "either alone until mating, or",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.13": "in small family groups made",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.14": "of a leading mated pair and",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.15": "their offspring, and usually",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.16": "the female is the leader of",
+  "screen.project_wildlife.creature_compendium.irl_info.american_red_fox.17": "the group.",
+
+
+
+  "group.project_wildlife.wildlife_animals": "Wildlife Animals",
+
+
+
+  "tag.item.project_wildlife.insects": "Insects",
+
+  "tag.item.project_wildlife.american_red_fox_foods": "American Red Fox Foods",
+
+  "tag.item.project_wildlife.american_red_fox_enrichment": "American Red Fox Allowed Enrichment"
+
 
 }

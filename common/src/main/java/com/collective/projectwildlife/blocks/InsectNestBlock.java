@@ -1,6 +1,6 @@
 package com.collective.projectwildlife.blocks;
 
-import com.collective.projectcore.blocks.base.CoreBaseBlockWithEntity;
+import com.collective.projectcore.blocks.CoreBlockWithEntity;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
@@ -20,7 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class InsectNestBlock extends CoreBaseBlockWithEntity {
+public class InsectNestBlock extends CoreBlockWithEntity {
 
     public static final MapCodec<InsectNestBlock> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(createSettingsCodec()).apply(instance, InsectNestBlock::new));
