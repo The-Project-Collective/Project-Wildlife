@@ -1291,19 +1291,13 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
             if (this.shouldStayHorizontal()) {
                 this.entity.setPitch(0.0F);
             }
-
             if (this.lookAtTimer > 0) {
                 --this.lookAtTimer;
-                this.getTargetYaw().ifPresent((yaw) -> {
-                    this.entity.headYaw = this.changeAngle(this.entity.headYaw, yaw, this.maxYawChange);
-                });
-                this.getTargetPitch().ifPresent((pitch) -> {
-                    this.entity.setPitch(this.changeAngle(this.entity.getPitch(), pitch, this.maxPitchChange));
-                });
+                this.getTargetYaw().ifPresent((yaw) -> this.entity.headYaw = this.changeAngle(this.entity.headYaw, yaw, this.maxYawChange));
+                this.getTargetPitch().ifPresent((pitch) -> this.entity.setPitch(this.changeAngle(this.entity.getPitch(), pitch, this.maxPitchChange)));
             } else {
                 this.entity.headYaw = this.changeAngle(this.entity.headYaw, this.entity.bodyYaw, 10.0F);
             }
-
             this.clampHeadYaw();
         }
 
@@ -1311,7 +1305,6 @@ public class AmericanRedFoxEntity extends CoreAnimalEntity implements GeoAnimata
             if (!this.entity.getNavigation().isIdle()) {
                 this.entity.headYaw = MathHelper.clampAngle(this.entity.headYaw, this.entity.bodyYaw, (float)this.entity.getMaxHeadRotation());
             }
-
         }
 
         protected boolean shouldStayHorizontal() {
